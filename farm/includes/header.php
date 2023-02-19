@@ -19,29 +19,21 @@
             </div>
           </li>
            
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown05" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Farm</a>
+            <div class="dropdown-menu  navbar-dropdown" aria-labelledby="dropdown05">
+            <a class="dropdown-item" href="farmprofile.php">Farm Details</a>
+            <a class="dropdown-item" href="store.php">Farm Store</a>
+            <a class="dropdown-item" href="sell_product.php">Sell Product</a>
 
-          <li class="nav-item dropdown">
-            <a class="nav-link" href="farmprofile.php">Farm Details</a>
-          
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link" href="store.php">Farm Store</a>
-          
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link" href="sell_product.php">Sell Product</a>
-          
+            </div>
           </li>
 
           <li class="nav-item dropdown">
             <a class="nav-link" href="expenses.php">Expenses</a>
           
           </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link" href="invoices.php">Invoices</a>
           
-          </li>
-
         <?php
         $aid=$_SESSION['odmsaid'];
         $sql="SELECT * from  tbladmin where ID=:aid";
@@ -64,8 +56,12 @@
             <div class="dropdown-menu  navbar-dropdown" aria-labelledby="dropdown05">
               <a class="dropdown-item" href="product_report.php">Product Report</a>
               <a class="dropdown-item" href="stock_report.php">Stock Report</a>
-               <a class="dropdown-item" href="invoice_report.php">Invoice Report</a>
+              <a class="dropdown-item" href="invoice_report.php">Invoice Report</a>
+              <a class="dropdown-item" href="expenses_report.php">Expenses Report</a>
             </div>
+          </li>
+          <li class="nav-item dropdown">
+              <a class="nav-link" href="userregister.php">Manage Users</a>
           </li>
 
            

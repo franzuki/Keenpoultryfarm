@@ -20,7 +20,9 @@ SET time_zone = "+00:00";
 --
 -- Database: `farm`
 --
-
+DROP DATABASE IF EXISTS `farm`;
+CREATE DATABASE `farm`;
+USE `farm`;
 -- --------------------------------------------------------
 
 --
@@ -42,7 +44,7 @@ CREATE TABLE `permissions` (
 
 INSERT INTO `permissions` (`id`, `permission`, `createuser`, `deleteuser`, `createbid`, `updatebid`) VALUES
 (1, 'Superuser', '1', '1', '1', '1'),
-(2, 'Admin', '1', NULL, '1', '1'),
+(2, 'Admin', '1', '1', '1', '1'),
 (3, 'User', NULL, NULL, '1', NULL);
 
 -- --------------------------------------------------------
@@ -60,8 +62,17 @@ CREATE TABLE `store_out` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
-
+CREATE TABLE `expenses` (
+	`id` int(11) auto_increment not null primary key,
+    `name` varchar(20) not null,
+    `description` varchar(200) NOT NULL,
+    `quantity` varchar(30) NOT NULL,
+    `total` int(20) NOT NULL,
+    `date` timestamp NULL DEFAULT current_timestamp()
+    ) engine=InnoDB DEFAULT CHARSET=latin1;
 --
+INSERT INTO `expenses` (`name`, `description`, `quantity`, `total`)
+		VALUES ('smooth','Chick vaccination','5 packets 200ml',446246);
 -- Table structure for table `store_stock`
 --
 
@@ -81,11 +92,11 @@ CREATE TABLE `store_stock` (
 -- Dumping data for table `store_stock`
 --
 
-INSERT INTO `store_stock` (`id`, `date`, `item`, `quantity`, `rate`, `total`, `quantity_remaining`, `itemvalue`, `status`) VALUES
-(1, '2022-03-14', 'PRECUT CHICKEN - 500 GM', '', '699', '3495', '5', 3495, '1'),
-(2, '2022-03-14', '12 EGGS - ECONOMY PACK', '', '649', '32450', '50', 32450, '1');
+-- INSERT INTO `store_stock` (`id`, `date`, `item`, `quantity`, `rate`, `total`, `quantity_remaining`, `itemvalue`, `status`) VALUES
+-- (1, '2022-03-14', 'PRECUT CHICKEN - 500 GM', '', '699', '3495', '5', 3495, '1'),
+-- (2, '2022-03-14', '12 EGGS - ECONOMY PACK', '', '649', '32450', '50', 32450, '1');
 
--- --------------------------------------------------------
+-- -- --------------------------------------------------------
 
 --
 -- Table structure for table `tbladmin`
@@ -93,7 +104,7 @@ INSERT INTO `store_stock` (`id`, `date`, `item`, `quantity`, `rate`, `total`, `q
 
 CREATE TABLE `tbladmin` (
   `ID` int(10) NOT NULL,
-  `Staffid` int(10) DEFAULT NULL,
+  `Staffid` varchar(20) DEFAULT NULL,
   `AdminName` varchar(120) DEFAULT NULL,
   `UserName` varchar(120) DEFAULT NULL,
   `FirstName` varchar(255) DEFAULT NULL,
@@ -111,9 +122,7 @@ CREATE TABLE `tbladmin` (
 --
 
 INSERT INTO `tbladmin` (`ID`, `Staffid`, `AdminName`, `UserName`, `FirstName`, `LastName`, `MobileNumber`, `Email`, `Status`, `Photo`, `Password`, `AdminRegdate`) VALUES
-(2, 1002, 'Admin', 'admin', 'Nikhil', 'Bhalerao', 9423979339, 'ndbhalerao91@gmail.com', 1, 'nikhil.png', '21232f297a57a5a743894a0e4a801fc3', '2022-03-15 10:18:39'),
-(9, 1003, 'Admin', 'staff', 'Raghav', 'Jain', 9090909090, 'raghav@gmail.com', 1, 'pic_3.jpg', '25d55ad283aa400af464c76d713c07ad', '2022-03-15 10:18:39');
-
+(1, 'ADM-001', 'Admin', 'admin', 'Francis', 'Nzuki', 0701723886, 'nzukifrancis20@gmail.com', 1, 'francis.jpg', '21232f297a57a5a743894a0e4a801fc3', '2022-10-15 10:18:39');
 -- --------------------------------------------------------
 
 --
@@ -132,8 +141,11 @@ CREATE TABLE `tblcategory` (
 --
 
 INSERT INTO `tblcategory` (`id`, `CategoryName`, `CategoryCode`, `PostingDate`) VALUES
-(1, 'EGGS', 'RKF-001', '2022-03-13 18:28:24'),
-(2, 'CHICKEN', 'RKF-002', '2022-03-13 18:28:40');
+(1, 'GEESE', 'EGG-001', '2022-10-13 18:28:24'),
+(2, 'CHICKEN', 'CKN-001', '2022-10-13 18:28:40'),
+(3, 'DUCKS', 'CKN-001', '2022-10-13 18:28:40'),
+(4, 'TURKEYS', 'CKN-001', '2022-10-13 18:28:40'),
+(5, 'GOOSE', 'CKN-001', '2022-10-13 18:28:40');
 
 -- --------------------------------------------------------
 
@@ -160,7 +172,7 @@ CREATE TABLE `tblcompany` (
 --
 
 INSERT INTO `tblcompany` (`id`, `regno`, `companyname`, `companyemail`, `country`, `companyphone`, `companyaddress`, `companylogo`, `status`, `developer`, `creationdate`) VALUES
-(4, '3422232443223', 'RED COCKFARM', 'redcockfarm@gmail.com', 'India', '+919423979339', 'Maharashtra', 'poultrylogo.png', '1', 'Nikhil_Bhalerao', '2021-02-02 12:17:15');
+(1, '3422232443223', 'KEEN Poultry Farm', 'keenpoultry@gmail.com', 'Kenya', '+254701723886', 'Nakuru', 'poultrylogo.png', '1', 'Francis', '2022-11-01 12:17:15');
 
 -- --------------------------------------------------------
 
@@ -179,9 +191,9 @@ CREATE TABLE `tblitems` (
 -- Dumping data for table `tblitems`
 --
 
-INSERT INTO `tblitems` (`id`, `item`, `description`, `Creationdate`) VALUES
-(1, 'PRECUT CHICKEN - 500 GM', 'Serving Weight/Egg: 900/500 gm It comes in ‘food-grade foil bag packaging with 900gm (Approx.) free-range KADAKNATH pre-cut chicken. Cooking Guidelines: Kadaknath chicken has lean meat with very low-fat content. Hence, it is best served in a curry or masa', '2022-03-13 18:36:52'),
-(2, '12 EGGS - ECONOMY PACK', 'Serving Weight/Egg: 40-50g (Approx.) It comes in ‘food-grade paper pulp packaging with 12 free-range KADAKNATH eggs. High Protein | Low Fat | Low Cholesterol | Rich Iron Source Higher Levels of - 18 essential Amino Acids & Hormones, Vitamins B1, B2, B6, B', '2022-03-13 18:37:33');
+-- INSERT INTO `tblitems` (`id`, `item`, `description`, `Creationdate`) VALUES
+-- (1, 'PRECUT CHICKEN - 500 GM', 'Serving Weight/Egg: 900/500 gm It comes in ‘food-grade foil bag packaging with 900gm (Approx.) free-range KADAKNATH pre-cut chicken. Cooking Guidelines: Kadaknath chicken has lean meat with very low-fat content. Hence, it is best served in a curry or masa', '2022-03-13 18:36:52'),
+-- (2, '12 EGGS - ECONOMY PACK', 'Serving Weight/Egg: 40-50g (Approx.) It comes in ‘food-grade paper pulp packaging with 12 free-range KADAKNATH eggs. High Protein | Low Fat | Low Cholesterol | Rich Iron Source Higher Levels of - 18 essential Amino Acids & Hormones, Vitamins B1, B2, B6, B', '2022-03-13 18:37:33');
 
 -- --------------------------------------------------------
 
@@ -193,23 +205,24 @@ CREATE TABLE `tblorders` (
   `id` int(11) NOT NULL,
   `ProductId` int(11) DEFAULT NULL,
   `Quantity` int(11) DEFAULT NULL,
-  `InvoiceNumber` int(11) DEFAULT NULL,
+  `InvoiceNumber` varchar(20) DEFAULT NULL,
   `CustomerName` varchar(150) DEFAULT NULL,
   `CustomerContactNo` bigint(12) DEFAULT NULL,
   `PaymentMode` varchar(100) DEFAULT NULL,
-  `InvoiceGenDate` timestamp NULL DEFAULT current_timestamp()
+  `InvoiceGenDate` timestamp NULL DEFAULT current_timestamp(),
+  `Status` int(2) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblorders`
 --
 
-INSERT INTO `tblorders` (`id`, `ProductId`, `Quantity`, `InvoiceNumber`, `CustomerName`, `CustomerContactNo`, `PaymentMode`, `InvoiceGenDate`) VALUES
-(1, 1, 10, 789218424, 'Suraj Jain', 9423979339, 'cash', '2022-03-13 18:38:29'),
-(2, 2, 6, 789218424, 'Suraj Jain', 9423979339, 'cash', '2022-03-13 18:38:30'),
-(3, 4, 10, 789218424, 'Suraj Jain', 9423979339, 'cash', '2022-03-13 18:38:30');
+-- INSERT INTO `tblorders` (`id`, `ProductId`, `Quantity`, `InvoiceNumber`, `CustomerName`, `CustomerContactNo`, `PaymentMode`, `InvoiceGenDate`) VALUES
+-- (1, 1, 10, 789218424, 'Suraj Jain', 9423979339, 'cash', '2022-03-13 18:38:29'),
+-- (2, 2, 6, 789218424, 'Suraj Jain', 9423979339, 'cash', '2022-03-13 18:38:30'),
+-- (3, 4, 10, 789218424, 'Suraj Jain', 9423979339, 'cash', '2022-03-13 18:38:30');
 
--- --------------------------------------------------------
+-- -- --------------------------------------------------------
 
 --
 -- Table structure for table `tblproducts`
@@ -221,6 +234,7 @@ CREATE TABLE `tblproducts` (
   `ProductName` varchar(150) DEFAULT NULL,
   `ProductImage` varchar(255) DEFAULT NULL,
   `ProductPrice` decimal(10,0) DEFAULT NULL,
+  `qty_rem` integer(15) DEFAULT NULL,
   `PostingDate` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `UpdationDate` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -229,11 +243,11 @@ CREATE TABLE `tblproducts` (
 -- Dumping data for table `tblproducts`
 --
 
-INSERT INTO `tblproducts` (`id`, `CategoryName`, `ProductName`, `ProductImage`, `ProductPrice`, `PostingDate`, `UpdationDate`) VALUES
-(1, 'EGGS', 'WHOLE EGG POWDER (50 gm)', '714Ml7MS8wL._SL1500_.jpg', '499', '2022-03-13 18:29:45', NULL),
-(2, 'EGGS', 'READY TO COOK - OMELET POWDER (50 gm)', 'fd.jpg', '299', '2022-03-13 18:34:00', NULL),
-(3, 'CHICKEN', 'WHOLE CHICKEN - 900 GM', '71pfC4X8s1L._SX679_.jpg', '699', '2022-03-13 18:34:46', NULL),
-(4, 'CHICKEN', 'PRECUT CHICKEN - 900 GM', 'WHOLE-CHICKEN---900-GM.jpg', '677', '2022-03-13 18:35:26', NULL);
+-- INSERT INTO `tblproducts` (`id`, `CategoryName`, `ProductName`, `ProductImage`, `ProductPrice`, `PostingDate`, `UpdationDate`) VALUES
+-- (1, 'EGGS', 'WHOLE EGG POWDER (50 gm)', '714Ml7MS8wL._SL1500_.jpg', '499', '2022-03-13 18:29:45', NULL),
+-- (2, 'EGGS', 'READY TO COOK - OMELET POWDER (50 gm)', 'fd.jpg', '299', '2022-03-13 18:34:00', NULL),
+-- (3, 'CHICKEN', 'WHOLE CHICKEN - 900 GM', '71pfC4X8s1L._SX679_.jpg', '699', '2022-03-13 18:34:46', NULL),
+-- (4, 'CHICKEN', 'PRECUT CHICKEN - 900 GM', 'WHOLE-CHICKEN---900-GM.jpg', '677', '2022-03-13 18:35:26', NULL);
 
 --
 -- Indexes for dumped tables
@@ -319,37 +333,37 @@ ALTER TABLE `store_stock`
 -- AUTO_INCREMENT for table `tbladmin`
 --
 ALTER TABLE `tbladmin`
-  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblcategory`
 --
 ALTER TABLE `tblcategory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `tblcompany`
 --
 ALTER TABLE `tblcompany`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `tblitems`
 --
 ALTER TABLE `tblitems`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `tblorders`
 --
 ALTER TABLE `tblorders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `tblproducts`
 --
 ALTER TABLE `tblproducts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

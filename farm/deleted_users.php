@@ -7,7 +7,6 @@ if(isset($_GET['restoreid']))
     $rid=intval($_GET['restoreid']);
     $sql="update tbladmin set Status='1' where ID='$rid'";
     $query=$dbh->prepare($sql);
-    $query->bindParam(':rid',$rid,PDO::PARAM_STR);
     $query->execute();
     if ($query->execute()){
         echo "<script>alert('User Restored');</script>"; 

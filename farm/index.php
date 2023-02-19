@@ -91,9 +91,6 @@ if(isset($_POST['login']))
                         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                           <div class="carousel-inner">
                             <div class="carousel-item active">
-                              <img class="d-block w-100" src="https://media.istockphoto.com/photos/hens-in-the-henhouse-picture-id479986424?k=20&m=479986424&s=612x612&w=0&h=6INWCg7rK8XNKbtLle_WFYVKuQfR2waRJW3YRjqCUSk=" alt="First slide" >
-                            </div>
-                            <div class="carousel-item">
                               <img class="d-block w-100" src="https://cdn.britannica.com/03/503-050-AEC26FB3/hens-egg-production-White-Leghorn-layer-house.jpg" alt="Second slide">
                             </div>
                           </div>

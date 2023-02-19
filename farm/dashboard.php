@@ -16,12 +16,12 @@ check_login();
   /* float: right; */
 }
 
-#my-pie-chart {
+/*#my-pie-chart {
   background: conic-gradient(brown 0.00deg, black 55deg, blue 55deg 116.08deg, green 6.08deg 13.68deg, yellow 13.68deg 23.27deg, orange 23.27deg 40.47deg, red 40.47deg);
   border-radius: 50%;
     width: 250px;
     height: 250px;
-} 
+} */
 
 .float{
   position:fixed;
@@ -47,7 +47,10 @@ check_login();
 </a>
   <div class="container-scroller">
     
-    <?php @include("includes/header.php");?>
+    <?php @include("includes/header.php");
+    // $myquery=mysqli_query($con,"SELECT * From tbladmin");
+    // $auth=mysqli_fetch_query($myquery);
+    ?>
     
     <div class="container-fluid page-body-wrapper">
        
@@ -63,6 +66,9 @@ check_login();
                       <div id="my-pie-chart"></div>
                     </div>
               </div>
+              <?php
+               // if ($auth['AdminName']=="Admin"){
+              ?>
             <div class="col-l-6">
               <div class="row">
               <div class="col-md-6 stretch-card grid-margin">
@@ -125,6 +131,7 @@ check_login();
            
           </div>
          </div>
+         <?php// } ?>
         
               
                 <div class="main-panel">

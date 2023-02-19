@@ -1,6 +1,22 @@
 <?php
 include('includes/checklogin.php');
 check_login();
+if(isset($_POST['save']))
+{
+  $name=$_POST['name'];
+  $desc=$_POST['description'];
+  $quant=$_POST['quantity'];
+  $total=$_POST['total'];
+  $sql=mysqli_query($con,"INSERT INTO expenses(name,description,quantity,total) VALUES('$name','$desc','$quant','$total')");
+    if($sql)
+    {
+      echo"<script>alert('Saved successfully')</script>";
+    }
+    else
+    {
+      echo"<script>alert('Something went wrong. Check your entries!')</script>";
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,18 +41,23 @@ check_login();
                         <th>Expense Name</th>
                         <th>Description</th>
                         <th>Quantity</th>
-                        <th>Cost</th>
+                        <th>Total Cost</th>
                         
                       </tr>
                     </thead>
                     <tbody>
                       <form method="post" action="expenses.php">                                                  
                           <tr>
-                            <td><input type="text" autofill="yes"> </td>
-                            <td><input type="text" autofill="yes"> </td>
-                            <td><input type="text" autofill="yes"> </td>
-                            <td><input type="text" autofill="yes"> </td>
+                            <td><input type="text" autofill="yes" name="name" required> </td>
+                            <td><input type="text" autofill="yes" name="description" required> </td>
+                            <td><input type="text" autofill="yes" name="quantity" required> </td>
+                            <td><input type="number" autofill="yes" name="total" required> </td>
                           </tr>
+                          
+                          <tr>
+                          <td><input type="submit" name="save" class="btn btn-block btn-lg font-weight-medium " style="background-color: dodgerblue; color: white;"></input></td>
+                          </tr>
+
                         </form>
                       
                     </tbody>
