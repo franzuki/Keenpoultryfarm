@@ -76,8 +76,11 @@ if(isset($_POST['checkout'])){
   $pmode=$_POST['paymentmode'];
   $value=array_combine($pid,$quantity);
   foreach($value as $pid=> $quantity){
+    $ask=mysqli_query($con,"SELECT quantity_remaining FROM store_stock WHERE id=$pid");
+    $quant=$ask['quantity_remaining'] - $quantity;
     $query=mysqli_query($con,"insert into tblorders(ProductId,Quantity,InvoiceNumber,CustomerName,CustomerContactNo,PaymentMode) 
-    values('$pid','$quantity','$invoiceno','$cname','$cmobileno','$pmode')") ; 
+    values('$pid','$quantity','$invoiceno','$cname','$cmobileno','$pmode')"); 
+    $confirm=mysqli_query($con,"UPfDATE store_stock SET quantity_remaining=$quant WHERE id=$pid");
   }
   echo '<script>alert("Invoice generated successfully. Invoice number is "+"'.$invoiceno.'")</script>';  
   unset($_SESSION["cart_item"]);

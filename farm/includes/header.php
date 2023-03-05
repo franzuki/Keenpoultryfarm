@@ -1,6 +1,14 @@
   <div id="loading"></div>
     <div id="page">
     </div>
+    <style>
+      .header {
+  background-color: #9933cc;
+  color: #ffffff;
+  padding: 15px;
+}
+    </style>
+    
  <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
   
   <div class="navbar-menu-wrapper d-flex align-items-stretch w-100">
@@ -11,20 +19,18 @@
             <a class="nav-link" href="dashboard.php">Dashboard</a>
           
           </li>
-     <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="dropdown05" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Product Management</a>
-            <div class="dropdown-menu  navbar-dropdown" aria-labelledby="dropdown05">
-              <a class="dropdown-item" href="category.php">Manage Category</a>
-              <a class="dropdown-item" href="product.php">Manage Product</a>
-            </div>
+          <li class="nav-item dropdown">
+            <a class="nav-link" href="sell_product.php">Sell Products</a>
+          
           </li>
-           
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="dropdown05" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Farm</a>
             <div class="dropdown-menu  navbar-dropdown" aria-labelledby="dropdown05">
             <a class="dropdown-item" href="farmprofile.php">Farm Details</a>
-            <a class="dropdown-item" href="store.php">Farm Store</a>
-            <a class="dropdown-item" href="sell_product.php">Sell Product</a>
+            <a class="dropdown-item" href="store.php">Farm Store (Stock In)</a>
+            <a class="dropdown-item" href="category.php">Manage Category</a>
+              <a class="dropdown-item" href="product.php">Manage Product</a>
+           
 
             </div>
           </li>
@@ -129,7 +135,3 @@
         </button>
       </div>
     </nav>
-
-
-
-

@@ -35,10 +35,14 @@ if(isset($_POST['login']))
         {
             foreach($results as $row)
             {            
-                if($row->Status=="1")
+                if($row->Status=="1" && $row->AdminName=="Admin")
                 { 
                  echo "<script type='text/javascript'> document.location ='dashboard.php'; </script>";      
-             } else
+             } elseif ($row->Status=="1" && $row->AdminName=="User") {
+                echo "<script type='text/javascript'> document.location ='sell_product.php'; </script>";      
+
+             }
+             
              { 
                 echo "<script>
                 alert('Your account was disabled Approach Admin');document.location ='index.php';

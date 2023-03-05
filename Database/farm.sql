@@ -327,7 +327,7 @@ ALTER TABLE `store_out`
 -- AUTO_INCREMENT for table `store_stock`
 --
 ALTER TABLE `store_stock`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `tbladmin`
@@ -365,6 +365,61 @@ ALTER TABLE `tblorders`
 ALTER TABLE `tblproducts`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 COMMIT;
+
+CREATE TABLE `forget_password` (
+  `id` int(11) NOT NULL,
+  `email` varchar(200) NOT NULL,
+  `temp_key` varchar(200) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `forget_password`
+--
+
+INSERT INTO `forget_password` (`id`, `email`, `temp_key`, `created`) VALUES
+(0, 'ghchnepal@mail.com.np', '4ef7518184bf85cdb80fa34ec93eb3ce', '2016-09-28 13:37:01'),
+(0, 'ghchnepal@mail.com.np', 'e4cb0c463e54f51e58bdd75c1cd76c15', '2016-11-10 06:35:40'),
+(0, 'ghchnepal@mail.com.np', 'e71af87f55413fc401b9bdc00573b570', '2017-02-22 10:48:02');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL,
+  `fullname` varchar(30) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `email` varchar(30) NOT NULL,
+  `phone` varchar(20) NOT NULL,
+  `admin_type` varchar(20) NOT NULL,
+  `parent_admin` varchar(20) NOT NULL,
+  `username` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `fullname`, `password`, `email`, `phone`, `admin_type`, `parent_admin`, `username`) VALUES
+(1, 'Arjun Dhakal', '724d6f12d48ab4d0d57413824305b013', 'ghchnepal@mail.com.np', '9841312498', '', '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
