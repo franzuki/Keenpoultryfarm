@@ -4,6 +4,7 @@ check_login();
 ?>
 <!DOCTYPE html>
 <html lang="en">
+  <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 <?php @include("includes/head.php");?>
 <body>
   <div class="container-scroller">
@@ -19,11 +20,13 @@ check_login();
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="modal-header">
-                  <h5 class="modal-title" style="float: left;">Expenses Report</h5>
+                <h3 class="modal-title" style="float: left;">Expenses Report</h3>
                 </div>
                 
                 <div class="card-body table-responsive p-3">
-                  <table class="table align-items-center table-flush table-hover" id="dataTableHover">
+                <button type="button" style="width:150px; background-color:RGB(101,140,187)" onclick="window.print()">Print Report</button>
+                
+                  <table class="table align-items-center table-flush table-hover table-bordered" id="dataTableHover">
                    <thead>
                     <tr>
                       <th>#</th>

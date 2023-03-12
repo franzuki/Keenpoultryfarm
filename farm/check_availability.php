@@ -49,18 +49,18 @@ if(!empty($_POST["companyname"])) {
 if(!empty($_POST["fullname"])) {
   $fullname= $_POST["fullname"];
   
-  $sql ="SELECT UserName FROM tbladmin WHERE UserName=:fullname";
+  $sql ="SELECT Staffid FROM tbladmin WHERE Staffid=:fullname";
   $query= $dbh -> prepare($sql);
   $query-> bindParam(':fullname', $fullname, PDO::PARAM_STR);
   $query-> execute();
   $results = $query -> fetchAll(PDO::FETCH_OBJ);
   if($query -> rowCount() > 0)
   {
-    echo "<span style='color:red'> Username already exists .</span>";
+    echo "<span style='color:red'> Staff ID already exists .</span>";
     echo "<script>$('#submit').prop('disabled',true);</script>";
   } else{
     
-    echo "<span style='color:green'> Username available for Registration .</span>";
+    echo "<span style='color:green'> Staff ID available for Registration .</span>";
     echo "<script>$('#submit').prop('disabled',false);</script>";
   }
 }

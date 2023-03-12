@@ -22,25 +22,22 @@ if(!empty($_POST["fullname"])) {
         $firstname=$_POST['firstname'];
         $lastname=$_POST['lastname'];
         $email=$_POST['emailid']; 
-        $staffid=$_POST['staffid']; 
+        sendemail($email);
         $mobile=$_POST['mobileno'];
         $dignity=$_POST['dignity']; 
-        $password=md5($_POST['password']); 
-        $sql="INSERT INTO  tbladmin(Staffid,AdminName,UserName,FirstName,LastName,Email,MobileNumber,Password) VALUES(:staffid,:dignity,:fname,:firstname,:lastname,:email,:mobile,:password)";
+        $sql="INSERT INTO  tbladmin(Staffid,AdminName,FirstName,LastName,Email,MobileNumber) VALUES(:fname,:dignity,:firstname,:lastname,:email,:mobile)";
         $query = $dbh->prepare($sql);
         $query->bindParam(':fname',$fname,PDO::PARAM_STR);
         $query->bindParam(':firstname',$firstname,PDO::PARAM_STR);
         $query->bindParam('lastname',$lastname,PDO::PARAM_STR);
         $query->bindParam(':email',$email,PDO::PARAM_STR);
-        $query->bindParam(':staffid',$staffid,PDO::PARAM_STR);
         $query->bindParam(':dignity',$dignity,PDO::PARAM_STR);
         $query->bindParam(':mobile',$mobile,PDO::PARAM_STR);
-        $query->bindParam(':password',$password,PDO::PARAM_STR);
         $query->execute();
         $lastInsertId = $dbh->lastInsertId();
         if($lastInsertId)
         {
-            echo "<script>alert('Registration successfull. Now you can login');</script>";
+            echo "<script>alert('Registration successfull. Email has been emailed to the user');</script>";
         }
         else 
         {
@@ -88,18 +85,6 @@ if(!empty($_POST["fullname"])) {
         });
     }
 </script>
-<script type="text/javascript">
-    function valid()
-    {
-        if(document.signup.password.value!= document.signup.confirmpassword.value)
-        {
-            alert("Password and Confirm Password Field do not match  !!");
-            document.signup.confirmpassword.focus();
-            return false;
-        }
-        return true;
-    }
-</script>
 <div class="card-body">
     <form  method="post" name="signup" onSubmit="return valid();">
         <div class="row ">
@@ -110,13 +95,10 @@ if(!empty($_POST["fullname"])) {
                     <option value="User">User</option>
                 </select>
             </div>
-            <div class="form-group col-md-6">
-                <input type="text" class="form-control" name="staffid" placeholder="Staff ID" required="required">
-            </div>
-        </div>
+                    </div>
         <div class="row">
             <div class="form-group col-md-6">
-                <input type="text" class="form-control" name="fullname" id="fullname" placeholder="User Name" onBlur="checkAvailability2()" required="required">
+                <input type="text" class="form-control" name="fullname" id="fullname" placeholder="Staff ID" onBlur="checkAvailability2()" required="required">
                 <span id="user-availability-status2" style="font-size:12px;"></span>
             </div>
             <div class="form-group col-md-6">
@@ -136,17 +118,20 @@ if(!empty($_POST["fullname"])) {
                 <input type="email" class="form-control" name="emailid" id="emailid" onBlur="checkAvailability()" placeholder="Email Address" required="required">
                 <span id="user-availability-status" style="font-size:12px;"></span> 
             </div>
-            <div class="form-group col-md-6">
-                <input type="password" class="form-control" name="password" placeholder="Password" required="required">
-            </div>
         </div>
-        <div class="row">
-            <div class="form-group col-md-6">
-                <input type="password" class="form-control" name="confirmpassword" placeholder="Confirm Password" required="required">
-            </div>
-        </div>
+        
         <div class="form-group">
             <input type="submit" value="Register" name="signup" id="submit" class="btn btn-info">
         </div>
     </form>
 </div>
+<?php
+function sendemail($email){
+$to = $Remail;
+$subject = "My subject";
+$txt = "Hello world!";
+$headers = "From: keenpoultryfarming@gmail.com" . "\r\n";
+
+mail($to,$subject,$txt,$headers);
+}
+?>

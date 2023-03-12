@@ -2,7 +2,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
-  <title>Keen Farm</title>
+  <title>Keen Poultry Farm</title>
   
   <link rel="stylesheet" href="assets/vendor/mdi/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="assets/vendor/css/vendor.bundle.base.css">

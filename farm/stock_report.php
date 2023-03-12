@@ -19,10 +19,10 @@ check_login();
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="modal-header">
-                  <h5 class="modal-title" style="float: left;">Current Stock Report</h5>    
+                  <h3 class="modal-title" style="float: left;">Current Stock Report</h3>    
                  
                 </div>
-                
+                <button type="button" style="width:150px; background-color:RGB(101,140,187)" onclick="window.print()">Print Report</button>
                 <div class="modal fade" id="pay-rent">
                   <div class="modal-dialog ">
                     <div class="modal-content">
@@ -88,7 +88,7 @@ check_login();
                 </div>
 
                 <div class="card-body table-responsive p-3">
-                  <table class="table align-items-center table-flush table-hover" id="dataTableHover">
+                  <table class="table align-items-center table-flush table-hover table-bordered" id="dataTableHover">
                    <thead>
                     <tr>
                       <th class="text-center">Date</th>
