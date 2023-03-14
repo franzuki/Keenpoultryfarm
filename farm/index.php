@@ -35,10 +35,10 @@ if(isset($_POST['login']))
         {
             foreach($results as $row)
             {            
-                if($row->Status=="1" && $row->AdminName=="Admin")
+                if($row->Status=="1" && ($row->AdminName=="Admin" || $row->AdminName=="RManager") )
                 { 
                  echo "<script type='text/javascript'> document.location ='dashboard.php'; </script>";      
-             } elseif ($row->Status=="1" && $row->AdminName=="User") {
+             } elseif ($row->Status=="1" && $row->AdminName=="Cashier") {
                 echo "<script type='text/javascript'> document.location ='sell_product.php'; </script>";      
 
              }

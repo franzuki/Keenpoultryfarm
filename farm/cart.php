@@ -5,36 +5,72 @@ include('includes/error.php');
 include('includes/dbconnection.php');
 //Code for Checkout
 if(isset($_POST['checkout'])){
-    function randominv() {
-      $chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-      srand((double)microtime()*1000000);
-      $i=0;
-      $pass='';
-      while ($i<=10){
-          $num=rand() % 33;
-          $tmp= substr($chars, $num, 1);
-          $pass=$pass.$tmp;
-          $i++;
-      }
-      return $pass;
-  }
-    $invoiceno= randominv();
-    $pid=$_SESSION['productid'];
-    $quantity=$_POST['quantity'];
-    $cname=$_POST['customername'];
-    $cmobileno=$_POST['mobileno'];
-    $pmode=$_POST['paymentmode'];
-    $value=array_combine($pid,$quantity);
-    foreach($value as $pid=> $quantity){
-      $query=mysqli_query($con,"insert into tblorders(ProductId,Quantity,InvoiceNumber,CustomerName,CustomerContactNo,PaymentMode) 
-      values('$pid','$quantity','$invoiceno','$cname','$cmobileno','$pmode')") ; 
+  function randominv() {
+    $chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    srand((double)microtime()*1000000);
+    $i=0;
+    $pass='';
+    while ($i<=10){
+        $num=rand() % 33;
+        $tmp= substr($chars, $num, 1);
+        $pass=$pass.$tmp;
+        $i++;
     }
-    echo '<script>alert("Invoice generated successfully. Invoice number is "+"'.$invoiceno.'")</script>';  
-    unset($_SESSION["cart_item"]);
-    $_SESSION['invoice']=$invoiceno;
-    echo "<script>window.location.href='invoice.php'</script>";
+    return $pass;
+}
+  $invoiceno= randominv();
+  $pid=$_SESSION['productid'];
+  $quantity=$_POST['quantity'];
+  $cname=$_POST['customername'];
+  $cmobileno=$_POST['mobileno'];
+  $pmode=$_POST['paymentmode'];
+  $value=array_combine($pid,$quantity);
+  foreach($value as $pid=> $quantity){
+    $ask=mysqli_query($con,"SELECT quantity_rem FROM tblproducts WHERE id=$pid");
+    $checked=mysqli_fetch_array($ask);
+    $quant=$checked['quantity_rem'];
+    $newquant=( $quant- $quantity);
+    $query=mysqli_query($con,"insert into tblorders(ProductId,Quantity,InvoiceNumber,CustomerName,CustomerContactNo,PaymentMode) 
+    values('$pid','$quantity','$invoiceno','$cname','$cmobileno','$pmode')"); 
+    $confirm=mysqli_query($con,"UPDATE tblproducts SET quantity_rem=$newquant WHERE id=$pid");
+  }
+  echo '<script>alert("Invoice generated successfully. Invoice number is "+"'.$invoiceno.'")</script>';  
+  unset($_SESSION["cart_item"]);
+  $_SESSION['invoice']=$invoiceno;
+  echo "<script>window.location.href='invoice.php'</script>";
+
+}
+// if(isset($_POST['checkout'])){
+//     function randominv() {
+//       $chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+//       srand((double)microtime()*1000000);
+//       $i=0;
+//       $pass='';
+//       while ($i<=10){
+//           $num=rand() % 33;
+//           $tmp= substr($chars, $num, 1);
+//           $pass=$pass.$tmp;
+//           $i++;
+//       }
+//       return $pass;
+//   }
+//     $invoiceno= randominv();
+//     $pid=$_SESSION['productid'];
+//     $quantity=$_POST['quantity'];
+//     $cname=$_POST['customername'];
+//     $cmobileno=$_POST['mobileno'];
+//     $pmode=$_POST['paymentmode'];
+//     $value=array_combine($pid,$quantity);
+//     foreach($value as $pid=> $quantity){
+//       $query=mysqli_query($con,"insert into tblorders(ProductId,Quantity,InvoiceNumber,CustomerName,CustomerContactNo,PaymentMode) 
+//       values('$pid','$quantity','$invoiceno','$cname','$cmobileno','$pmode')") ; 
+//     }
+//     echo '<script>alert("Invoice generated successfully. Invoice number is "+"'.$invoiceno.'")</script>';  
+//     unset($_SESSION["cart_item"]);
+//     $_SESSION['invoice']=$invoiceno;
+//     echo "<script>window.location.href='invoice.php'</script>";
   
-  }  
+//   }  
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -83,7 +119,7 @@ if(isset($_POST['checkout'])){
                           ?>
                           <input type="hidden" value="<?php echo $item['quantity']; ?>" name="quantity[<?php echo $item['code']; ?>]">
                           <tr>
-                            <td><img src="assets/img/productimages/<?php  echo  $item["image"];?>" class="mr-2" alt="image"><?php echo $item["pname"]; ?></td>
+                            <td><img src="assets/img/productimages/<?php  echo  $item["image"];?>" class="mr-2" alt=""><?php echo $item["pname"]; ?></td>
                             <td><?php echo $item["catname"]; ?></td>
                             <td><?php echo $item["quantity"]; ?></td>
                             <td><?php echo $item["price"]; ?></td>
@@ -98,8 +134,7 @@ if(isset($_POST['checkout'])){
                         ?>
 
                         <tr>
-                          <td colspan="4" align="center"><strong>Total</strong></td>
-                          <!-- <td colspan="2"><?php echo $total_quantity; ?></td> -->
+                          <td colspan="4" style="align:center"><strong>Total</strong></td>
                           <td colspan=><strong><?php echo number_format($total_price, 2); ?></strong></td>
                           <td></td>
                         </tr>
@@ -138,7 +173,7 @@ if(isset($_POST['checkout'])){
                   <?php
                 } else {
                   ?>
-                  <div style="color:red" align="center">Your Cart is Empty</div>
+                  <div style="color:red align:center">Your Cart is Empty</div>
                   <?php 
                 }
                 ?>

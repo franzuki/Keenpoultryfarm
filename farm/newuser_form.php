@@ -22,7 +22,7 @@ if(!empty($_POST["fullname"])) {
         $firstname=$_POST['firstname'];
         $lastname=$_POST['lastname'];
         $email=$_POST['emailid']; 
-        sendemail($email);
+       
         $mobile=$_POST['mobileno'];
         $dignity=$_POST['dignity']; 
         $sql="INSERT INTO  tbladmin(Staffid,AdminName,FirstName,LastName,Email,MobileNumber) VALUES(:fname,:dignity,:firstname,:lastname,:email,:mobile)";
@@ -92,7 +92,8 @@ if(!empty($_POST["fullname"])) {
                 <select class="form-control"   name="dignity"  id="dignity"  required>
                     <option value="">Select permisions</option>
                     <option value="Admin">Admin</option>
-                    <option value="User">User</option>
+                    <option value="RManager">RManager</option>
+                    <option value="Cashier">Cashier</option>
                 </select>
             </div>
                     </div>

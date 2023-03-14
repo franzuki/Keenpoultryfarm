@@ -7,23 +7,30 @@ if(isset($_POST['save']))
   $product=$_POST['product'];
   $price=$_POST['price'];
   $image=$_FILES["productimage"]["name"];
-  move_uploaded_file($_FILES["productimage"]["tmp_name"],"assets/img/productimages/".$_FILES["productimage"]["name"]);
-  $sql="insert into tblproducts(CategoryName,ProductName,ProductPrice,ProductImage)values(:category,:product,:price,:image)";
-  $query=$dbh->prepare($sql);
-  $query->bindParam(':category',$category,PDO::PARAM_STR);
-  $query->bindParam(':product',$product,PDO::PARAM_STR);
-  $query->bindParam(':price',$price,PDO::PARAM_STR);
-  $query->bindParam(':image',$image,PDO::PARAM_STR);
-  $query->execute();
-  $LastInsertId=$dbh->lastInsertId();
-  if ($LastInsertId>0) 
-  {
-    echo '<script>alert("Registered successfully")</script>';
-    echo "<script>window.location.href ='product.php'</script>";
+  $check=mysqli_query($con, "SELECT DISTINCT ProductName FROM tblproducts");
+  $row=mysqli_fetch_array($check);
+  if ($row['ProductName']!=$product){
+    move_uploaded_file($_FILES["productimage"]["tmp_name"],"assets/img/productimages/".$_FILES["productimage"]["name"]);
+    $sql="insert into tblproducts(CategoryName,ProductName,ProductPrice,ProductImage)values(:category,:product,:price,:image)";
+    $query=$dbh->prepare($sql);
+    $query->bindParam(':category',$category,PDO::PARAM_STR);
+    $query->bindParam(':product',$product,PDO::PARAM_STR);
+    $query->bindParam(':price',$price,PDO::PARAM_STR);
+    $query->bindParam(':image',$image,PDO::PARAM_STR);
+    $query->execute();
+    $LastInsertId=$dbh->lastInsertId();
+    if ($LastInsertId>0) 
+    {
+      echo '<script>alert("Registered successfully")</script>';
+      echo "<script>window.location.href ='product.php'</script>";
+    }
+    else
+    {
+      echo '<script>alert("Something Went Wrong. Please check whether the product is already registered")</script>';
+    }
   }
-  else
-  {
-    echo '<script>alert("Something Went Wrong. Please try again")</script>';
+  else{
+    echo '<script>alert("Sorry this product is already registered")</script>';
   }
 }
 if(isset($_GET['del'])){    
@@ -85,12 +92,11 @@ if(isset($_GET['del'])){
                       <label for="exampleInputName1">Product Price</label>
                       <input type="text" name="price" value="" placeholder="Enter Price" class="form-control" id="price"required>
                     </div>
-                    <div class="form-group col-md-4 ">
+                  <div class="form-group col-md-4 ">
                       <label class="col-sm-12 pl-0 pr-0 ">Attach Product Photo</label>
                       <div class="col-sm-12 pl-0 pr-0">
                         <input type="file" name="productimage" class="file-upload-default">
                         <div class="input-group ">
-                          <!-- <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image"> -->
                           <span class="input-group-append">
                             <button class="file-upload-browse btn btn-primary" style="color: black" type="button">Upload Photo</button>
                           </span>
@@ -98,7 +104,11 @@ if(isset($_GET['del'])){
                       </div>
                     </div> 
                   </div>
-                  <button type="submit" style="float: left;" name="save" class="btn btn-primary  mr-2 mb-4">Save</button>
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                      <button type="submit" style="float: left;" name="save" class="btn btn-primary  mr-2 mb-4">Save</button>
+                    </div>
+                  </div>
                 </form>
               </div>
             </div>

@@ -296,6 +296,9 @@ ALTER TABLE `tblitems`
   ADD PRIMARY KEY (`id`);
 
 --
+
+-- ALTER TABLE `tblproducts`
+--   ADD UNIQUE (`ProductName`);
 -- Indexes for table `tblorders`
 --
 ALTER TABLE `tblorders`

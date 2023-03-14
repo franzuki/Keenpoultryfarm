@@ -23,6 +23,8 @@ check_login();
                 </div>
                 
                 <div class="card-body ">
+                <button type="button" style="width:150px; background-color:RGB(101,140,187)" onclick="window.print()">Print Report</button>
+
                   <section class="hk-sec-wrapper hk-invoice-wrap pa-35">
                     <div class="invoice-from-wrap">
                       <div class="row">

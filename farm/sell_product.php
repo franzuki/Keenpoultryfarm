@@ -54,40 +54,40 @@ if(!empty($_GET["action"])) {
 }
 
 //Code for Checkout
-if(isset($_POST['checkout'])){
-  function randominv() {
-    $chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    srand((double)microtime()*1000000);
-    $i=0;
-    $pass='';
-    while ($i<=10){
-        $num=rand() % 33;
-        $tmp= substr($chars, $num, 1);
-        $pass=$pass.$tmp;
-        $i++;
-    }
-    return $pass;
-}
-  $invoiceno= randominv();
-  $pid=$_SESSION['productid'];
-  $quantity=$_POST['quantity'];
-  $cname=$_POST['customername'];
-  $cmobileno=$_POST['mobileno'];
-  $pmode=$_POST['paymentmode'];
-  $value=array_combine($pid,$quantity);
-  foreach($value as $pid=> $quantity){
-    $ask=mysqli_query($con,"SELECT quantity_remaining FROM store_stock WHERE id=$pid");
-    $quant=$ask['quantity_remaining'] - $quantity;
-    $query=mysqli_query($con,"insert into tblorders(ProductId,Quantity,InvoiceNumber,CustomerName,CustomerContactNo,PaymentMode) 
-    values('$pid','$quantity','$invoiceno','$cname','$cmobileno','$pmode')"); 
-    $confirm=mysqli_query($con,"UPfDATE store_stock SET quantity_remaining=$quant WHERE id=$pid");
-  }
-  echo '<script>alert("Invoice generated successfully. Invoice number is "+"'.$invoiceno.'")</script>';  
-  unset($_SESSION["cart_item"]);
-  $_SESSION['invoice']=$invoiceno;
-  echo "<script>window.location.href='invoice.php'</script>";
+// if(isset($_POST['checkout'])){
+//   function randominv() {
+//     $chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+//     srand((double)microtime()*1000000);
+//     $i=0;
+//     $pass='';
+//     while ($i<=10){
+//         $num=rand() % 33;
+//         $tmp= substr($chars, $num, 1);
+//         $pass=$pass.$tmp;
+//         $i++;
+//     }
+//     return $pass;
+// }
+//   $invoiceno= randominv();
+//   $pid=$_SESSION['productid'];
+//   $quantity=$_POST['quantity'];
+//   $cname=$_POST['customername'];
+//   $cmobileno=$_POST['mobileno'];
+//   $pmode=$_POST['paymentmode'];
+//   $value=array_combine($pid,$quantity);
+//   foreach($value as $pid=> $quantity){
+//     $ask=mysqli_query($con,"SELECT quantity_remaining FROM store_stock WHERE id=$pid");
+//     $quant=$ask['quantity_remaining'] - $quantity;
+//     $query=mysqli_query($con,"insert into tblorders(ProductId,Quantity,InvoiceNumber,CustomerName,CustomerContactNo,PaymentMode) 
+//     values('$pid','$quantity','$invoiceno','$cname','$cmobileno','$pmode')"); 
+//     $confirm=mysqli_query($con,"UPfDATE store_stock SET quantity_remaining=$quant WHERE id=$pid");
+//   }
+//   echo '<script>alert("Invoice generated successfully. Invoice number is "+"'.$invoiceno.'")</script>';  
+//   unset($_SESSION["cart_item"]);
+//   $_SESSION['invoice']=$invoiceno;
+//   echo "<script>window.location.href='invoice.php'</script>";
 
-}
+// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -102,9 +102,12 @@ if(isset($_POST['checkout'])){
       
       <div class="main-panel">
         <div class="content-wrapper">
-          <button style="float:right">
-          <a  href="cart.php">Cart</a>
-          </button>
+          <a style="float:right"  href="cart.php" >
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="green" class="bi bi-cart" viewBox="0 0 16 16">
+              <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+            </svg>
+          </a>
+          
           <div class="row">
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
@@ -123,7 +126,7 @@ if(isset($_POST['checkout'])){
                     </thead>
                     <tbody>
                       <?php
-                      $query=mysqli_query($con,"select * from tblproducts p join store_stock s where p.ProductName=s.item ");
+                      $query=mysqli_query($con,"select * from tblproducts");
                       $cnt=1;
                       while($row=mysqli_fetch_array($query))
                       {    
@@ -135,14 +138,14 @@ if(isset($_POST['checkout'])){
                             <td><?php echo $row['CategoryName'];?></td>
                             <td><?php echo $row['ProductPrice'];?></td>
                             <td style="color:green"><input type="number" min="1" class="product-quantity" name="quantity" placeholder = "Enter quantity"  required size="4" <?php
-                                if ($row['quantity_remaining'] == 0){
+                                if ($row['quantity_rem'] == 0){
                                   ?> hidden <?php
                                 }?> />
                             <?php
-                                if ($row['quantity_remaining'] == 0){
+                                if ($row['quantity_rem'] == 0){
                                   ?> <p> <?php stockouterror(); ?> </p>
                                 <?php } else {
-                                   echo $row['quantity_remaining']?>&nbsp;remaining</td>
+                                   echo $row['quantity_rem']?>&nbsp;remaining</td>
                                   <?php } ?>
                             </td>
                             <td>

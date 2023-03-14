@@ -61,14 +61,10 @@ check_login();
           <div class="col-l-6">
                 <div class="center navbar-brand-wrapper  align-items-center justify-content-center">
                                         
-                    <a class="navbar-brand brand-logo " href="dashboard.php"><img class="img-avatar" style="height: 150PX; border-radius:10px" src="assets/img/companyimages/poultrylogo.png" alt="Company Logo"></a>
                     <div id="my-pie-chart-container">
                       <div id="my-pie-chart"></div>
                     </div>
               </div>
-              <?php
-               // if ($auth['AdminName']=="Admin"){
-              ?>
             <div class="col-l-6">
               <div class="row">
               <div class="col-md-6 stretch-card grid-margin">

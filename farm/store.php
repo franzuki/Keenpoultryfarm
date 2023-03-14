@@ -1,6 +1,14 @@
 <?php
 include('includes/checklogin.php');
 check_login();
+
+
+if(isset($_GET['del'])){    
+  $cmpid=$_GET['del'];
+  $query=mysqli_query($con,"delete from tblproducts where id='$cmpid'");
+  echo "<script>alert('Product record in store deleted.');</script>";   
+  echo "<script>window.location.href='store.php'</script>";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +29,6 @@ check_login();
                 <div class="modal-header">
                   <h5 class="modal-title" style="float: left;">Farm Store</h5>    
                   <div class="card-tools" style="float: right;">
-                    <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#deleted-items"  > New Item</button>
                     <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#pay-rent"  ><i class="fas fa-plus" ></i>&nbsp; Stock In</button> 
                   </div>    
                 </div>
@@ -46,65 +53,21 @@ check_login();
                   
                 </div>
                 
-
-                <div class="modal fade" id="deleted-items">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h4 class="modal-title">New Items</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        
-                        <?php @include("deleted-items.php");?>
-                      </div>
-                     
-                        
-                      
-                    </div>
-                    
-                  </div>
-                  
-                </div>
-                
-
-                <div id="itemout" class="modal fade">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title">Item Out Form</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body" id="info_update2">
-                        
-                        <?php @include("storeout.php");?>
-                      </div>
-                      
-                    </div>
-                    
-                  </div>
-                  
-                </div>
-
+                                
                 <div class="card-body table-responsive p-3">
                   <table class="table align-items-center table-flush table-hover" id="dataTableHover">
                    <thead>
                     <tr>
                       <th class="text-center">Date</th>
-                      <th class="text-center">Item</th>
+                      <th class="text-center">Product</th>
                       <th class="text-center">Qty Remaining</th>
-                      <th class="text-center">Rate</th>
-                      <th class="text-center">Total</th>
+                      <th class="text-center">Unit Price</th>
                       <th class="text-center">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     <?php
-                    $sql="SELECT * from store_stock where status='1'";
+                    $sql="SELECT * from tblproducts ";
                     $query = $dbh -> prepare($sql);
                     $query->execute();
                     $results=$query->fetchAll(PDO::FETCH_OBJ);
@@ -114,22 +77,17 @@ check_login();
                     {
                       foreach($results as $row)
                       {  
-                        $remaining=$row->quantity_remaining;
-                        $rate=$row->rate;
-                        $total=($remaining*$rate);  
+                        
                         ?>
 
                         <tr>
-                         <td class="text-center"><?php  echo htmlentities(date("d-m-Y", strtotime($row->date)));?></td>
-                         <td class="text-center"><?php  echo htmlentities($row->item);?></td>
-                         <td class="text-center"><?php  echo htmlentities($row->quantity_remaining);?></td>
-                         <td class="text-center"><?php  echo htmlentities(number_format($row->rate, 0, '.', ','));?></td>
-                         <td class="text-center"><?php  echo htmlentities(number_format($total, 0, '.', ','));?></td>
-                         <td>
-                          <a class="btn btn-danger btn-xs edit_data
-                          href="store.php?delid=<?php echo ($row->id);?>" onclick="return confirm('Do you really want to Delete ?');" title="Delete this item"><i class="fa fa-trash fa-delete"style="color: #fff" aria-hidden="true"></i></a>
-                          <button class="btn btn-danger btn-xs edit_data" id="<?php echo  ($row->id); ?>">Item Out</button>
-                        </td>
+                         <td class="text-center"><?php  echo htmlentities(date("d-m-Y", strtotime($row->UpdationDate)));?></td>
+                         <td class="text-center"><?php  echo htmlentities($row->ProductName);?></td>
+                         <td class="text-center"><?php  echo htmlentities($row->quantity_rem);?></td>
+                         <td class="text-center"><?php  echo htmlentities(number_format($row->ProductPrice, 0, '.', ','));?></td>
+                         <td class="text-center">
+                           <a href="product.php?del=<?php echo ($row->id);?>" data-toggle="tooltip" data-original-title="Delete" class="rounded-circle btn btn-danger" onclick="return confirm('Do you really want to delete?');"> <i class="mdi mdi-delete"></i> </a>
+                          </td>
                       </tr>
 
                       <?php 
