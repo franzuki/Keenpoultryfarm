@@ -17,7 +17,7 @@ if(isset($_POST['checkout'])){
         $i++;
     }
     return $pass;
-}
+    }
   $invoiceno= randominv();
   $pid=$_SESSION['productid'];
   $quantity=$_POST['quantity'];
@@ -29,15 +29,22 @@ if(isset($_POST['checkout'])){
     $ask=mysqli_query($con,"SELECT quantity_rem FROM tblproducts WHERE id=$pid");
     $checked=mysqli_fetch_array($ask);
     $quant=$checked['quantity_rem'];
+    if($quant>=$quantity){
     $newquant=( $quant- $quantity);
     $query=mysqli_query($con,"insert into tblorders(ProductId,Quantity,InvoiceNumber,CustomerName,CustomerContactNo,PaymentMode) 
     values('$pid','$quantity','$invoiceno','$cname','$cmobileno','$pmode')"); 
     $confirm=mysqli_query($con,"UPDATE tblproducts SET quantity_rem=$newquant WHERE id=$pid");
+    echo '<script>alert("Invoice generated successfully. Invoice number is "+"'.$invoiceno.'")</script>';  
+    unset($_SESSION["cart_item"]);
+    $_SESSION['invoice']=$invoiceno;
+    echo "<script>window.location.href='invoice.php'</script>";
+    }
+    else{
+      echo "<script>alert('The amount you are selling is not available')</script>";
+      break;
+    }
   }
-  echo '<script>alert("Invoice generated successfully. Invoice number is "+"'.$invoiceno.'")</script>';  
-  unset($_SESSION["cart_item"]);
-  $_SESSION['invoice']=$invoiceno;
-  echo "<script>window.location.href='invoice.php'</script>";
+ 
 
 }
 // if(isset($_POST['checkout'])){

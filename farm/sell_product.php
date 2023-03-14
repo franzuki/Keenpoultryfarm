@@ -53,41 +53,6 @@ if(!empty($_GET["action"])) {
   }
 }
 
-//Code for Checkout
-// if(isset($_POST['checkout'])){
-//   function randominv() {
-//     $chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-//     srand((double)microtime()*1000000);
-//     $i=0;
-//     $pass='';
-//     while ($i<=10){
-//         $num=rand() % 33;
-//         $tmp= substr($chars, $num, 1);
-//         $pass=$pass.$tmp;
-//         $i++;
-//     }
-//     return $pass;
-// }
-//   $invoiceno= randominv();
-//   $pid=$_SESSION['productid'];
-//   $quantity=$_POST['quantity'];
-//   $cname=$_POST['customername'];
-//   $cmobileno=$_POST['mobileno'];
-//   $pmode=$_POST['paymentmode'];
-//   $value=array_combine($pid,$quantity);
-//   foreach($value as $pid=> $quantity){
-//     $ask=mysqli_query($con,"SELECT quantity_remaining FROM store_stock WHERE id=$pid");
-//     $quant=$ask['quantity_remaining'] - $quantity;
-//     $query=mysqli_query($con,"insert into tblorders(ProductId,Quantity,InvoiceNumber,CustomerName,CustomerContactNo,PaymentMode) 
-//     values('$pid','$quantity','$invoiceno','$cname','$cmobileno','$pmode')"); 
-//     $confirm=mysqli_query($con,"UPfDATE store_stock SET quantity_remaining=$quant WHERE id=$pid");
-//   }
-//   echo '<script>alert("Invoice generated successfully. Invoice number is "+"'.$invoiceno.'")</script>';  
-//   unset($_SESSION["cart_item"]);
-//   $_SESSION['invoice']=$invoiceno;
-//   echo "<script>window.location.href='invoice.php'</script>";
-
-// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
