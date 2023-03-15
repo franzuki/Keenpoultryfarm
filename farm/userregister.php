@@ -33,13 +33,34 @@ if(isset($_GET['delid']))
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="modal-header">
-                                <h5 class="modal-title" style="float: left;">Register user</h5>    
+                                <h5 class="modal-title" style="float: left;">Users</h5>    
                                 <div class="card-tools" style="float: right;">
-                                    <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#delete" ></i> Blocked users
+                                    <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete" ></i> Blocked users
                                     </button>
                                     <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#registeruser" ><i class="fas fa-plus" ></i> Register User
                                     </button>
+                                    <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#sendemail" ><i class="fas fa-plus" ></i> Recovery Email
+                                    </button>
                                 </div>      
+                            </div>
+                            
+                            <div class="modal fade" id="sendemail">
+                                <div class="modal-dialog ">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Send Recovery Email</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            
+                                            <?php @include("forgot-password/email_form.php");?>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                
                             </div>
                             
                             <div class="modal fade" id="registeruser">

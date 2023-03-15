@@ -91,17 +91,17 @@ check_login();
                   <table class="table align-items-center table-flush table-hover table-bordered" id="dataTableHover">
                    <thead>
                     <tr>
-                      <th class="text-center">Date</th>
-                      <th class="text-center">Item</th>
+                      <th class="text-center">Last updated</th>
+                      <th class="text-center">Product</th>
                       <th class="text-center">Qty Remaining</th>
-                      <th class="text-center">Rate</th>
+                      <th class="text-center">Unit Price</th>
                       <th class="text-center">Total</th>
                     
                     </tr>
                   </thead>
                   <tbody>
                     <?php
-                    $sql="SELECT * from store_stock where status='1'";
+                    $sql="SELECT * from tblproducts ";
                     $query = $dbh -> prepare($sql);
                     $query->execute();
                     $results=$query->fetchAll(PDO::FETCH_OBJ);
@@ -111,21 +111,21 @@ check_login();
                     {
                       foreach($results as $row)
                       {  
-                        $remaining=$row->quantity_remaining;
-                        $rate=$row->rate;
+                        $remaining=$row->quantity_rem;
+                        $rate=$row->ProductPrice;
                         $total=($remaining*$rate);  
                         ?>
 
                         <tr>
-                         <td class="font-w600"><?php  echo htmlentities(date("d-m-Y", strtotime($row->date)));?></td>
-                         <td class="font-w600"><?php  echo htmlentities($row->item);?></td>
-                         <td class="font-w600"><?php  echo htmlentities($row->quantity_remaining);?></td>
-                         <td class="font-w600"><?php  echo htmlentities(number_format($row->rate, 0, '.', ','));?></td>
+                         <td class="font-w600"><?php  echo htmlentities(date("d-m-Y", strtotime($row->UpdationDate)));?></td>
+                         <td class="font-w600"><?php  echo htmlentities($row->ProductName);?></td>
+                         <td class="font-w600"><?php  echo htmlentities($row->quantity_rem);?></td>
+                         <td class="font-w600"><?php  echo htmlentities(number_format($row->ProductPrice, 0, '.', ','));?></td>
                          <td class="font-w600"><?php  echo htmlentities(number_format($total, 0, '.', ','));?></td>
                          
                       </tr>
 
-                      <?php 
+                      <?php $ctn+=1;
                     }
                   }?>
                 </tbody>                  

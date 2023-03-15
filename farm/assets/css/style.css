@@ -2277,7 +2277,7 @@
     --warning: #fed713;
     --danger: #fe7c96;
     --light: #f8f9fa;
-    --dark: #3e4b5b;
+    --dark: #161816;
     --breakpoint-xs: 0;
     --breakpoint-sm: 576px;
     --breakpoint-md: 768px;
@@ -4545,7 +4545,7 @@ pre code {
     font-size: 0.8125rem;
     font-weight: 400;
     line-height: 1;
-    color: #fbfbfb;
+    color: #495057;
     background-color: #ffffff;
     background-clip: padding-box;
     border: 1px solid #ced4da;
@@ -17776,8 +17776,7 @@ dl li {
     -webkit-transition: width 0.25s ease;
     -moz-transition: width 0.25s ease;
     -ms-transition: width 0.25s ease;
-    color: #fffbfb;
-    background-color: #20272f;
+    color: #2c2b29;
     font-weight: bold;
     padding-left: 24px;
     padding-right: 24px;
@@ -17903,7 +17902,7 @@ dl li {
 }
 
 .navbar .navbar-menu-wrapper .navbar-nav .nav-item .nav-link:hover {
-    color: #bf3322;
+    color: #039be5;
 }
 
 .navbar .navbar-menu-wrapper .navbar-nav .nav-item .nav-link {

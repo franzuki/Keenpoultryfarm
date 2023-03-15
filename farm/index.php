@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 error_reporting(1);
@@ -35,14 +34,10 @@ if(isset($_POST['login']))
         {
             foreach($results as $row)
             {            
-                if($row->Status=="1" && ($row->AdminName=="Admin" || $row->AdminName=="RManager") )
+                if($row->Status=="1")
                 { 
                  echo "<script type='text/javascript'> document.location ='dashboard.php'; </script>";      
-             } elseif ($row->Status=="1" && $row->AdminName=="Cashier") {
-                echo "<script type='text/javascript'> document.location ='sell_product.php'; </script>";      
-
-             }
-             
+             } else
              { 
                 echo "<script>
                 alert('Your account was disabled Approach Admin');document.location ='index.php';
@@ -84,7 +79,7 @@ if(isset($_POST['login']))
                                     <button name="login" class="btn btn-block btn-lg font-weight-medium auth-form-btn" style="background-color: #d62108; color: white;">SIGN IN</button>
                                 </div>
                                 <div class="text-center mt-4 font-weight-light"> 
-                                    <a href="#" class="text-primary"> 
+                                    <a href="forgot-password/forgot_password.php" class="text-primary"> 
                                         Forgot Password
                                     </a>
                                 </div>

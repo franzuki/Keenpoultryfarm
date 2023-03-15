@@ -17,7 +17,7 @@ include('includes/dbconnection.php');
       {?>
 
         <h4 style="color: blue">Product Information</h4>
-        <table border="1" class="table table-bordered">
+        <table style="border: 1" class="table table-bordered">
           <tr>
             <th>Product Name</th>
             <td>

@@ -2,9 +2,9 @@
     <div id="page">
     </div>
     <style>
-      .header {
-  background-color: #9933cc;
-  color: #ffffff;
+      .navbar .navbar-menu-wrapper {
+  background-color: #161816;
+  color: #e8eff4;
   padding: 15px;
 }
     </style>
