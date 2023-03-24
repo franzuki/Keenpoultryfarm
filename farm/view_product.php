@@ -31,7 +31,7 @@ include('includes/dbconnection.php');
           </tr>
           <tr>
             <th>Category Price</th>
-            <td><b>$</b>&nbsp;<?php  echo $row->ProductPrice;?></td>
+            <td><b>Ksh</b>&nbsp;<?php  echo $row->ProductPrice;?></td>
           </tr>
           <tr>
             <th>Posting Date</th>

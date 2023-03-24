@@ -33,7 +33,7 @@ check_login();
                       <th>Expense Name</th>
                       <th>Description</th>
                       <th>Quantity</th>
-                      <th>Total Cost</th>
+                      <th>Total Cost (Ksh)</th>
                       <th>Date</th>
                       
                     </tr>

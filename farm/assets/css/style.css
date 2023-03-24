@@ -18910,8 +18910,9 @@ dl li {
     .card-body * {
         visibility: hidden;
     }
-    .modal-header *,
-    .table * {
+    .card *,
+    .table *,
+    title {
         visibility: visible;
     }
     .modal-header {

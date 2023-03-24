@@ -3,27 +3,34 @@ session_start();
 error_reporting(1);
 include('includes/error.php');
 include('includes/dbconnection.php');
+
+//function to generate invoice number
+function randominv() {
+  $chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  srand((double)microtime()*1000000);
+  $i=0;
+  $pass='';
+  while ($i<=10){
+      $num=rand() % 33;
+      $tmp= substr($chars, $num, 1);
+      $pass=$pass.$tmp;
+      $i++;
+  }
+  return $pass;
+  }
+
+
 //Code for Checkout
 if(isset($_POST['checkout'])){
-  function randominv() {
-    $chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    srand((double)microtime()*1000000);
-    $i=0;
-    $pass='';
-    while ($i<=10){
-        $num=rand() % 33;
-        $tmp= substr($chars, $num, 1);
-        $pass=$pass.$tmp;
-        $i++;
-    }
-    return $pass;
-    }
   $invoiceno= randominv();
   $pid=$_SESSION['productid'];
   $quantity=$_POST['quantity'];
   $cname=$_POST['customername'];
   $cmobileno=$_POST['mobileno'];
   $pmode=$_POST['paymentmode'];
+  // if($pmode=="Mpesa"){
+  //   @require('payment\daraja\stk_initiate.php');
+  
   $value=array_combine($pid,$quantity);
   foreach($value as $pid=> $quantity){
     $ask=mysqli_query($con,"SELECT quantity_rem FROM tblproducts WHERE id=$pid");
@@ -44,41 +51,10 @@ if(isset($_POST['checkout'])){
       break;
     }
   }
- 
-
 }
-// if(isset($_POST['checkout'])){
-//     function randominv() {
-//       $chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-//       srand((double)microtime()*1000000);
-//       $i=0;
-//       $pass='';
-//       while ($i<=10){
-//           $num=rand() % 33;
-//           $tmp= substr($chars, $num, 1);
-//           $pass=$pass.$tmp;
-//           $i++;
-//       }
-//       return $pass;
-//   }
-//     $invoiceno= randominv();
-//     $pid=$_SESSION['productid'];
-//     $quantity=$_POST['quantity'];
-//     $cname=$_POST['customername'];
-//     $cmobileno=$_POST['mobileno'];
-//     $pmode=$_POST['paymentmode'];
-//     $value=array_combine($pid,$quantity);
-//     foreach($value as $pid=> $quantity){
-//       $query=mysqli_query($con,"insert into tblorders(ProductId,Quantity,InvoiceNumber,CustomerName,CustomerContactNo,PaymentMode) 
-//       values('$pid','$quantity','$invoiceno','$cname','$cmobileno','$pmode')") ; 
-//     }
-//     echo '<script>alert("Invoice generated successfully. Invoice number is "+"'.$invoiceno.'")</script>';  
-//     unset($_SESSION["cart_item"]);
-//     $_SESSION['invoice']=$invoiceno;
-//     echo "<script>window.location.href='invoice.php'</script>";
-  
-//   }  
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <?php @include("includes/head.php");?>
@@ -137,6 +113,7 @@ if(isset($_POST['checkout'])){
                           $total_quantity += $item["quantity"];
                           $total_price += ($item["price"]*$item["quantity"]);
                         }
+
                         $_SESSION['productid']=$productid;
                         ?>
 
@@ -150,13 +127,13 @@ if(isset($_POST['checkout'])){
                     <div class="form-row">
                       <div class="col-md-6 mb-10">
                         <label for="validationCustom03">Customer Name</label>
-                        <input type="text" class="form-control" id="validationCustom03" placeholder="Customer Name" name="customername" required>
+                        <input type="text" class="form-control" id="validationCustom03" pattern="['A-Za-z]+" placeholder="Customer Name" name="customername" required>
                         <div class="invalid-feedback">Please provide a valid customer name.</div>
                       </div>
                       <div class="col-md-6 mb-10">
                         <label for="validationCustom03">Customer Mobile Number</label>
-                        <input type="text" class="form-control" id="validationCustom03" placeholder="Mobile Number" name="mobileno" max="10" required>
-                        <div class="invalid-feedback">Please provide a valid mobile number.</div>
+                        <input type="text" class="form-control" maxlength="12" pattern="\d{12}"id="validationCustom03" placeholder="254_ _ _ _ _ _ _ _ " name="mobileno" required>
+                        <div class="invalid-feedback">Please provide a valid mobile number that start with 254.</div>
                       </div>
                     </div>
 
@@ -168,8 +145,8 @@ if(isset($_POST['checkout'])){
                           <label class="custom-control-label" for="customControlValidation2">Cash</label>
                         </div>
                         <div class="custom-control custom-radio mb-10">
-                          <input type="radio" class="custom-control-input" id="customControlValidation3" name="paymentmode" value="card" required>
-                          <label class="custom-control-label" for="customControlValidation3">Card</label>
+                          <input type="radio" class="custom-control-input" id="customControlValidation3" name="paymentmode" value="Mpesa" required>
+                          <label class="custom-control-label" for="customControlValidation3">Mpesa</label>
                         </div>
                       </div>
                       <div class="col-md-6 mb-4 ">

@@ -106,7 +106,7 @@ if(isset($_GET['del'])){
                       <th class="text-center">No</th>
                       <th>Product Name</th>
                       <th class="text-center"> Product Category</th>
-                      <th class="text-center"> Product Price</th>
+                      <th class="text-center"> Product Price (Ksh)</th>
                       <th class="text-center">Posting Date</th>
                       
                     </tr>

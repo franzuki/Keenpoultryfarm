@@ -4,14 +4,12 @@ check_login();
 if(isset($_POST['submit']))
 {
   $adminid=$_SESSION['odmsaid'];
-  $AName=$_POST['username'];
   $fName=$_POST['firstname'];
   $lName=$_POST['lastname'];
   $mobno=$_POST['mobilenumber'];
   $email=$_POST['email'];
-  $sql="update tbladmin set UserName=:adminname,FirstName=:firstname,LastName=:lastname,MobileNumber=:mobilenumber,Email=:email where ID=:aid";
+  $sql="update tbladmin set FirstName=:firstname,LastName=:lastname,MobileNumber=:mobilenumber,Email=:email where ID=:aid";
   $query = $dbh->prepare($sql);
-  $query->bindParam(':adminname',$AName,PDO::PARAM_STR);
   $query->bindParam(':firstname',$fName,PDO::PARAM_STR);
   $query->bindParam(':lastname',$lName,PDO::PARAM_STR);
   $query->bindParam(':email',$email,PDO::PARAM_STR);
@@ -25,6 +23,12 @@ if(isset($_POST['submit']))
 <!DOCTYPE html>
 <html lang="en">
 <?php @include("includes/head.php");?>
+<style>
+   .form-control{
+       color: black;
+   } 
+</style>
+</style>
 <body>
     <div class="container-scroller">
         
@@ -57,12 +61,6 @@ if(isset($_POST['submit']))
                                                     <label class="col-12" for="register1-username">Permision:</label>
                                                     <div class="col-12">
                                                         <input type="text" class="form-control" name="adminname" value="<?php  echo $row->AdminName;?>" readonly="true">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label class="col-12" for="register1-email">User Name:</label>
-                                                    <div class="col-12">
-                                                        <input type="text" class="form-control" name="username" value="<?php  echo $row->UserName;?>" required='true' >
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">

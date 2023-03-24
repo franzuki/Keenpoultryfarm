@@ -81,10 +81,7 @@ if(isset($_POST['submit']))
           } ?>
         </select>
     </div>
-    <div class="form-group ">
-      <label for="exampleInputPassword1">pid</label>
-      <input type="text" name="pid" class="form-control" id="exampleInputPassword1" placeholder="pid" required>
-    </div>
+    
     <div class="form-group ">
       <label for="exampleInputPassword1">Quantity</label>
       <input type="text" name="quantity" class="form-control" id="exampleInputPassword1" placeholder="Quantity" required>

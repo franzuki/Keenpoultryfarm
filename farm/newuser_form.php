@@ -86,7 +86,7 @@ if(!empty($_POST["fullname"])) {
     }
 </script>
 <div class="card-body">
-    <form  method="post" name="signup" onSubmit="return valid();">
+    <form  method="post" name="signup" onSubmit="return valid();" autocomplete="off">
         <div class="row ">
             <div class="form-group col-md-6">
                 <select class="form-control"   name="dignity"  id="dignity"  required>
@@ -103,15 +103,15 @@ if(!empty($_POST["fullname"])) {
                 <span id="user-availability-status2" style="font-size:12px;"></span>
             </div>
             <div class="form-group col-md-6">
-                <input type="text" class="form-control" name="firstname" placeholder="First Name" required="required">
+                <input type="text" class="form-control" name="firstname" placeholder="First Name" required="required"  pattern="[A-Za-z]+" title="A name can only contain letters">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-6">
-                <input type="text" class="form-control" name="lastname" placeholder="Last Name" required="required">
+                <input type="text" class="form-control" name="lastname" placeholder="Last Name" required="required"  pattern="[A-Za-z]+" title="A name can only contain letters">
             </div>
             <div class="form-group col-md-6">
-                <input type="text" class="form-control" name="mobileno" placeholder="Mobile Number" required="required">
+                <input type="text" class="form-control" name="mobileno" placeholder="Mobile Number" required="required" maxlength="10" pattern="\d{10}">
             </div>
         </div>
         <div class="row">

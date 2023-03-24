@@ -82,6 +82,9 @@ if(isset($_POST['login']))
                                     <a href="forgot-password/forgot_password.php" class="text-primary"> 
                                         Forgot Password
                                     </a>
+                                     <a href="daraja/index.php" class="text-primary"> 
+                                        PAY
+                                    </a>
                                 </div>
                             </form>
                         </div>

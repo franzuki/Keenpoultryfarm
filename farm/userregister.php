@@ -4,16 +4,20 @@ check_login();
 if(isset($_GET['delid']))
 {
     $rid=intval($_GET['delid']);
-    $sql="update tbladmin set Status='0' where ID='$rid'";
-    $query=$dbh->prepare($sql);
-    $query->execute();
-    if ($query->execute()){
-        echo "<script>alert('User blocked');</script>"; 
-        echo "<script>window.location.href = 'userregister.php'</script>";
-    }else{
-        echo '<script>alert("update failed! try again later")</script>';
+    if($rid==1){
+        echo"<script>alert('Sorry you cannot block your Superior')</script>";
     }
-    
+    else {
+        $sql="update tbladmin set Status='0' where ID='$rid'";
+        $query=$dbh->prepare($sql);
+        $query->execute();
+        if ($query->execute()){
+            echo "<script>alert('User blocked');</script>"; 
+            echo "<script>window.location.href = 'userregister.php'</script>";
+        }else{
+            echo '<script>alert("update failed! try again later")</script>';
+        }
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -154,8 +158,7 @@ if(isset($_GET['delid']))
                                                         <span ><?php  echo htmlentities(date("d-m-Y", strtotime($row->AdminRegdate)));?></span>
                                                     </td>
                                                     <td class=" text-center">
-                                                        <a href="#"  class=" edit_data rounded-circle btn btn-info" id="<?php echo  ($row->ID); ?>" title="click for edit"><i class="mdi mdi-pencil-box-outline" aria-hidden="true"></i></a>
-                                                        <a class="rounded-circle btn btn-danger" href="userregister.php?delid=<?php echo ($row->ID);?>" onclick="return confirm('Do you really want to Block ?');" title="Block this User"><i class="mdi mdi-delete fa-delete" aria-hidden="true"></i></a> </td>
+                                                      <a class="rounded-circle btn btn-danger" href="userregister.php?delid=<?php echo ($row->ID);?>" onclick="return confirm('Do you really want to Block ?');" title="Block this User"><i class="mdi mdi-delete fa-delete" aria-hidden="true"></i></a> </td>
                                                     </tr>
                                                     <?php $cnt=$cnt+1;
                                                 }

@@ -94,7 +94,7 @@ check_login();
                       <th class="text-center">Last updated</th>
                       <th class="text-center">Product</th>
                       <th class="text-center">Qty Remaining</th>
-                      <th class="text-center">Unit Price</th>
+                      <th class="text-center">Unit Price (Ksh)</th>
                       <th class="text-center">Total</th>
                     
                     </tr>
@@ -117,11 +117,11 @@ check_login();
                         ?>
 
                         <tr>
-                         <td class="font-w600"><?php  echo htmlentities(date("d-m-Y", strtotime($row->UpdationDate)));?></td>
-                         <td class="font-w600"><?php  echo htmlentities($row->ProductName);?></td>
-                         <td class="font-w600"><?php  echo htmlentities($row->quantity_rem);?></td>
-                         <td class="font-w600"><?php  echo htmlentities(number_format($row->ProductPrice, 0, '.', ','));?></td>
-                         <td class="font-w600"><?php  echo htmlentities(number_format($total, 0, '.', ','));?></td>
+                         <td class="text-center"><?php  echo htmlentities(date("d-m-Y", strtotime($row->UpdationDate)));?></td>
+                         <td class="text"><?php  echo htmlentities($row->ProductName);?></td>
+                         <td class="text-center"><?php  echo htmlentities($row->quantity_rem);?></td>
+                         <td class="text-center"><?php  echo htmlentities(number_format($row->ProductPrice, 0, '.', ','));?></td>
+                         <td class="text-center"><?php  echo htmlentities(number_format($total, 0, '.', ','));?></td>
                          
                       </tr>
 

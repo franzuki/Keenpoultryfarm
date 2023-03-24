@@ -16,6 +16,21 @@ if(isset($_GET['restoreid']))
     }
     
 }
+
+if(isset($_GET['deleteid']))
+{   
+    $rid=intval($_GET['deleteid']);
+    $sql="DELETE FROM tbladmin where ID='$rid'";
+    $query=$dbh->prepare($sql);
+    $query->execute();
+    if ($query->execute()){
+        echo "<script>alert('User Deleted Permanently');</script>"; 
+        echo "<script>window.location.href = 'userregister.php'</script>";
+    }else{
+        echo '<script>alert("Delete failed! try again later")</script>';
+    }
+    
+}
 ?>
 <div class="card-body table-responsive p-3">
     <h4 class="card-title">Manage Users</h4>
@@ -50,7 +65,10 @@ if(isset($_GET['restoreid']))
                         <td class="font-w600">
                             <span class="badge badge-primary"><?php  echo htmlentities($row->AdminRegdate);?></span>
                         </td>
-                        <td class=""><a href="deleted_users.php?restoreid=<?php echo ($row->ID);?>" onclick="return confirm('Do you really want to Restore user ?');" title="Restore this User">restore</i></a> </td>
+                        <td class="font-w600">
+                            <a href="deleted_users.php?restoreid=<?php echo ($row->ID);?>" onclick="return confirm('Do you really want to Restore user ?');" title="Restore this User">restore</i></a>
+                            <a href="deleted_users.php?deleteid=<?php echo ($row->ID);?>" onclick="return confirm('Do you really want to permanently delete the user ?');" title="Delete this User">delete</i></a>
+                        </td>
                     </tr>
                     <?php $cnt=$cnt+1;
                 }

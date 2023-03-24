@@ -5,7 +5,7 @@ check_login();
 $imgid=intval($_GET['imageid']);
 if(isset($_POST['submit'])) { // if save button on the form is clicked
   $aimage=$_FILES["imagename"]["name"];
-  move_uploaded_file($_FILES["imagename"]["tmp_name"],"productimages/".$_FILES["imagename"]["name"]);
+  move_uploaded_file($_FILES["imagename"]["tmp_name"],"assets/img/productimages/".$_FILES["imagename"]["name"]);
   $sql="update tblproducts set ProductImage=:aimage where id=:imgid";
   $query = $dbh->prepare($sql);
   $query->bindParam(':imgid',$imgid,PDO::PARAM_STR);
@@ -15,7 +15,7 @@ if(isset($_POST['submit'])) { // if save button on the form is clicked
     echo '<script>alert(" image has been Updated.")</script>';
 
   }else{
-    echo '<script>alert("Something went wrong please try a.")</script>';
+    echo '<script>alert("Something went wrong please try again.")</script>';
   }
 }
 ?>
@@ -57,7 +57,7 @@ if(isset($_POST['submit'])) { // if save button on the form is clicked
                       <div class="form-group ml-4">
                         <label for="focusedinput" class=" control-label">Current Image </label>
                         <div class="">
-                          <img src="productimages/<?php  echo $row->ProductImage;?>" width="200">
+                          <img src="assets/img/productimages/<?php  echo $row->ProductImage;?>" width="200">
                         </div>
                       </div>
 

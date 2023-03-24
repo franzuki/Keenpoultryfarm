@@ -42,7 +42,7 @@ if(isset($_POST['insert']))
                 <div class="control-group">
                     <label class="control-label" for="basicinput">Product Image</label>
                     <div class="controls">
-                        <img style="height: 100px; width: 100px;" src="productimages/<?php  echo $row->ProductImage;?>" width="150" height="100">
+                        <img style="height: 100px; width: 100px;" src="assets/img/productimages/<?php  echo $row->ProductImage;?>" width="150" height="100">
                         <a href="update_productimage.php?imageid=<?php echo ($row->id) ?>">Change Image</a>
                     </div>
                 </div>  

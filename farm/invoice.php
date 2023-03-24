@@ -5,6 +5,55 @@ check_login();
 <!DOCTYPE html>
 <html lang="en">
 <?php @include("includes/head.php");?>
+<style>
+      @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@500&display=swap");
+
+      body {
+        background-color: #eaedf4;
+        
+      }
+
+      .card {
+        width: 310px;
+        border: none;
+        border-radius: 15px;
+      }
+
+      .justify-content-around div {
+        border: none;
+        border-radius: 20px;
+        background: #f3f4f6;
+        padding: 5px 20px 5px;
+        color: #8d9297;
+      }
+
+      .justify-content-around span {
+        font-size: 12px;
+      }
+
+      .justify-content-around div:hover {
+        background: #545ebd;
+        color: #fff;
+        cursor: pointer;
+      }
+
+      .justify-content-around div:nth-child(1) {
+        background: #545ebd;
+        color: #fff;
+      }
+
+      span.mt-0 {
+        color: #8d9297;
+        font-size: 12px;
+      }
+      .mpesa {
+        background-color: green !important;
+      }
+
+      img {
+        border-radius: 15px;
+      }
+    </style>
 <body>
   <div class="container-scroller">
     
@@ -23,7 +72,7 @@ check_login();
                 </div>
                 
                 <div class="card-body ">
-                <button type="button" style="width:150px; background-color:RGB(101,140,187)" onclick="window.print()">Print Report</button>
+                
 
                   <section class="hk-sec-wrapper hk-invoice-wrap pa-35">
                     <div class="invoice-from-wrap">
@@ -39,44 +88,46 @@ check_login();
                         
                         $payment='';
                         $cnt=1;
-                        while($row=mysqli_fetch_array($query))
+                       
+                        while($rows=mysqli_fetch_array($query))
                         { 
+                          $phone=$rows['CustomerContactNo'];
                           ?>
                           <div class="col-md-5 mb-20">
-                            <h4 class="mb-35 font-weight-600">Invoice / Receipt</h4>
-                            <table  border="0" >
+                            <h4 class="mb-35 font-weight-600">Receipt</h4>
+                            <table style=" border:0" >
                               <tr>
                                 <td><strong >Date:</strong></td>
                                 <td></td>
-                                <td><?php  echo htmlentities(date("d-m-Y", strtotime($row['InvoiceGenDate'])));?></td>
+                                <td><?php  echo htmlentities(date("d-m-Y", strtotime($rows['InvoiceGenDate'])));?></td>
                               </tr>
                               <tr>
-                                <td><strong >Invoice / Receipt:</strong></td>
+                                <td><strong >Receipt No:</strong></td>
                                 <td>&nbsp;</td>
-                                <td><?php echo $row['InvoiceNumber'];?></td>
+                                <td><?php echo $rows['InvoiceNumber'];?></td>
                               </tr>
                               <tr>
                                 <td><strong >Customer:</strong></td>
                                 <td></td>
-                                <td><?php echo $row['CustomerName'];?></td>
+                                <td><?php echo $rows['CustomerName'];?></td>
                               </tr>
                               <tr>
-                                <td><strong >Customer Mobile No:</strong></td>
+                                <td><strong >Mobile No:</strong></td>
                                 <td></td>
-                                <td>0<?php echo $row['CustomerContactNo'];?></td>
+                                <td><?php echo $rows['CustomerContactNo'];?></td>
                               </tr>
                               <tr>
                                 <td><strong >Payment Mode:</strong></td>
                                 <td></td>
-                                <td><?php echo $row['PaymentMode'];?></td>
+                                <td><?php echo $rows['PaymentMode'];?></td>
                               </tr>
                             </table>
                           </div>
-                          <?php $payment = $row['PaymentMode'];
+                          <?php $payment = $rows['PaymentMode'];
                         }  ?>
                       </div>
                     </div>
-                    <dir>&nbsp;</dir>
+                    &nbsp;
                     <div class="row">
                       <div class="card-body table-responsive p-3">
                         <div class="table-wrap">
@@ -98,6 +149,7 @@ check_login();
                                 $query=mysqli_query($con,"SELECT tblproducts.ProductName,tblorders.Quantity, tblproducts.ProductPrice from tblorders join tblproducts on tblproducts.id=tblorders.ProductId where tblorders.InvoiceNumber='$inid'");
                                 
                                 $cnt=1;
+                                
                                 while($row=mysqli_fetch_array($query))
                                 {    
                                   ?>                                                
@@ -119,13 +171,41 @@ check_login();
                                 </tr>                                              
                               </tbody>
                             </table>
-                            <form method="post" action="<?php  $pay;?>.php">
-                              <div align="center" class="col-md-6 mb-4 " >
-                                <button style="background-color:green" class="btn btn-primary mt-6" type="submit" name="checkout">Checkout</button>
-                              </div>
-                            </form>
-                        </div>
+                            </div>
                       </div>
+                      <div class="container d-flex justify-content-center">
+                          <div class="card mt-5 px-3 py-4">
+                            <div class="d-flex flex-row justify-content-around">
+                              <div class="mpesa"><span>Mpesa </span></div>
+                              <div><span>Paypal</span></div>
+                              <div><span>Cash</span></div>
+                            </div>
+                            <!-- <div class="media mt-4 pl-2">
+                              <img src="payment/daraja/images/1200px-M-PESA_LOGO-01.svg.png" class="mr-3" height="75" />
+                              
+                            </div> -->
+                            <div class="media mt-3 pl-2">
+                                              <!--bs5 input-->
+
+                                <form class="row g-3" action="payment/daraja/stk_initiate.php" method="POST">
+                                
+                                    <div class="col-12">
+                                      <input type="hidden" class="form-control" name="amount" value="<?php echo $grandtotal ?>" placeholder="Enter Amount">
+                                    </div>
+                                    <div class="col-12">
+                                     <input type="hidden" class="form-control" name="phone" value="<?php echo $phone;?>" placeholder="Enter Phone Number">
+                                    </div>
+                                
+                                    <div class="col-12">
+                                      <button type="submit" class="btn btn-success" name="submit" value="submit">Pay With Mpesa</button>
+                                    </div>
+                                  </form>
+                                  <!--bs5 input-->
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
                     </div>
                   </section>
                 </div>
