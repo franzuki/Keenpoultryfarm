@@ -1,5 +1,6 @@
 <?php
 include('includes/checklogin.php');
+include('includes/functions.php');
 check_login();
 if(isset($_POST['save']))
 {
@@ -98,7 +99,7 @@ if(isset($_GET['del'])){
               <div class="modal-header">
                 <h3 class="modal-title" style="float: left;">Products Report</h3>
                 </div>
-                <button type="button" style="width:150px; background-color:RGB(101,140,187)" onclick="window.print()">Print Report</button>
+                <button type="button" style="width:150px; background-color:RGB(101,140,187)" onclick="printTable()">Print Report</button>
               <div class="table-responsive p-3">
                 <table class="table align-items-center table-flush table-hover table-bordered" id="dataTableHover">
                   <thead>

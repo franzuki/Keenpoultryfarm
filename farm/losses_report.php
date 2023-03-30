@@ -5,7 +5,7 @@ check_login();
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 <?php @include("includes/head.php");?>
 <body>
   <div class="container-scroller">
@@ -21,26 +21,27 @@ check_login();
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="modal-header">
-                  <h3 class="modal-title" style="float: left;">Invoices Report</h3>
+                <h3 class="modal-title" style="float: left;">Losses Report</h3>
                 </div>
-                <button type="button" style="width:150px; background-color:RGB(101,140,187)" onclick="printTable()">Print Report</button>
+                
                 <div class="card-body table-responsive p-3">
+                <button type="button" style="width:150px; background-color:RGB(101,140,187)" onclick="printTable()">Print Report</button>
+
                   <table class="table align-items-center table-flush table-hover table-bordered" id="dataTableHover">
                    <thead>
                     <tr>
                       <th>#</th>
-                      <th>Invoice Number</th>
-                      <th>Customer Name</th>
-                      <th>Customer Contact no.</th>
-                      <th>Payment Mode</th>
-                      <th>Payment Date</th>
+                      <th>Product</th>
+                      <th>Quantity</th>
+                      <th>Cause</th>
+                      <th>Date</th>
+                      <th>Type (Stock-in)</th>
                       
                     </tr>
                   </thead>
                   <tbody>
                     <?php
-                    $rno=mt_rand(10000,99999); 
-                    $sql="select distinct InvoiceNumber,CustomerName,CustomerContactNo,PaymentMode,InvoiceGenDate    from tblorders ORDER BY id DESC";
+                    $sql="select * from losses ORDER BY id DESC";
                     $query = $dbh -> prepare($sql);
                     $query->execute();
                     $results=$query->fetchAll(PDO::FETCH_OBJ);
@@ -53,12 +54,12 @@ check_login();
                         <tr>
                           <td><?php echo $cnt;?></td>
 
-                          <td class="font-w600"><?php  echo htmlentities($row->InvoiceNumber);?></td>
-                          <td class="font-w600"><?php  echo htmlentities($row->CustomerName);?></td>
-                          <td class="font-w600">0<?php  echo htmlentities($row->CustomerContactNo);?></td>
-                          <td class="font-w600"><?php  echo htmlentities($row->PaymentMode);?></td>
-                          <td class="font-w600"><?php  echo htmlentities(date("d-m-Y", strtotime($row->InvoiceGenDate)));?></td>
-                          
+                          <td class="font-w600"><?php  echo htmlentities($row->productname);?></td>
+                          <td class="font-w600"><?php  echo htmlentities($row->quantity);?></td>
+                          <td class="font-w600"><?php  echo htmlentities($row->cause);?></td>
+                          <td class="font-w600"><?php  echo htmlentities(date("d-m-Y", strtotime($row->date)));?></td>
+                          <td class="font-w600"><?php  echo htmlentities($row->type);?></td>
+
                         </tr>
 
                         <?php 
@@ -86,4 +87,6 @@ check_login();
 <?php @include("includes/foot.php");?>
 
 </body>
+
 </html>
+

@@ -34,20 +34,26 @@ if(isset($_POST['login']))
         {
             foreach($results as $row)
             {            
-                if($row->Status=="1")
+                if($row->Status=="1"){
+                    if($row->AdminName=="Admin" || $row->AdminName=="RManager"){ 
+                        echo "<script type='text/javascript'> document.location ='dashboard.php'; </script>";      
+                        }
+                    else{
+                        echo "<script type='text/javascript'> document.location ='sell_product.php'; </script>";      
+                      }
+                    }
+                else
                 { 
-                 echo "<script type='text/javascript'> document.location ='dashboard.php'; </script>";      
-             } else
-             { 
-                echo "<script>
-                alert('Your account was disabled Approach Admin');document.location ='index.php';
-                </script>";
-            }
+                    echo "<script>
+                    alert('Your account was disabled Approach Admin');document.location ='index.php';
+                    </script>";
+                }
+            } 
         } 
-    } 
-} else{
-    echo "<script>alert('Invalid Details');</script>";
-}
+        } 
+        else{
+            echo "<script>alert('Invalid Details');</script>";
+        }
 }
 ?>
 <!DOCTYPE html>
@@ -63,7 +69,7 @@ if(isset($_POST['login']))
                 <div class="row flex-grow  p-0">
                     <div class="col-lg-6 mx-auto  p-0">
                         <div class="auth-form-light text-left p-5" style="margin-top: 150px;">
-                            <div align="center">
+                            <div style="text-align:center">
                                 <img style="height: 125px;" class="img-avatar mb-3" src="assets/img/companyimages/logo.jpg" alt="">
                             </div>
                             <form role="form" id=""  method="post" enctype="multipart/form-data" class="col-md-8 mx-auto">  
@@ -82,30 +88,12 @@ if(isset($_POST['login']))
                                     <a href="forgot-password/forgot_password.php" class="text-primary"> 
                                         Forgot Password
                                     </a>
-                                     <a href="daraja/index.php" class="text-primary"> 
-                                        PAY
-                                    </a>
+                                     
                                 </div>
                             </form>
                         </div>
                     </div>
-                     <div class="col-md-6 p-0">
-                        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                          <div class="carousel-inner">
-                            <div class="carousel-item active">
-                              <img class="d-block w-100" src="https://cdn.britannica.com/03/503-050-AEC26FB3/hens-egg-production-White-Leghorn-layer-house.jpg" alt="Second slide">
-                            </div>
-                          </div>
-                          <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                          </a>
-                          <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                          </a>
-                        </div>
-                    </div>
+                     
                 </div>
             </div>
             

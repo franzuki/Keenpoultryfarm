@@ -1,5 +1,6 @@
 <?php
 include('includes/checklogin.php');
+include('includes/functions.php');
 check_login();
 ?>
 <!DOCTYPE html>
@@ -22,7 +23,7 @@ check_login();
                   <h3 class="modal-title" style="float: left;">Current Stock Report</h3>    
                  
                 </div>
-                <button type="button" style="width:150px; background-color:RGB(101,140,187)" onclick="window.print()">Print Report</button>
+                <button type="button" style="width:150px; background-color:RGB(101,140,187)" onclick="printTable()">Print Report</button>
                 <div class="modal fade" id="pay-rent">
                   <div class="modal-dialog ">
                     <div class="modal-content">
@@ -67,25 +68,7 @@ check_login();
                 </div>
                 
 
-                <div id="itemout" class="modal fade">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title">Item Out Form</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body" id="info_update2">
-                        
-                        <?php @include("storeout.php");?>
-                      </div>
-                      
-                    </div>
-                    
-                  </div>
-                  
-                </div>
+                
 
                 <div class="card-body table-responsive p-3">
                   <table class="table align-items-center table-flush table-hover table-bordered" id="dataTableHover">
@@ -117,7 +100,11 @@ check_login();
                         ?>
 
                         <tr>
-                         <td class="text-center"><?php  echo htmlentities(date("d-m-Y", strtotime($row->UpdationDate)));?></td>
+                         <td class="text-center"><?php 
+                         if($row->UpdationDate==NULL){
+                           echo "Never";
+                         } else
+                         echo htmlentities(date("d-m-Y", strtotime($row->UpdationDate)));?></td>
                          <td class="text"><?php  echo htmlentities($row->ProductName);?></td>
                          <td class="text-center"><?php  echo htmlentities($row->quantity_rem);?></td>
                          <td class="text-center"><?php  echo htmlentities(number_format($row->ProductPrice, 0, '.', ','));?></td>

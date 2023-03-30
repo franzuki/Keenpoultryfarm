@@ -6,20 +6,18 @@ if(isset($_POST['save']))
 {
   $item2=$_POST['item'];
   $quantity2=$_POST['quantity'];
-  $sql="SELECT * from tblproducts where ProductName='$item2'";
+  $sql="SELECT * from store_stock where item='$item2'";
   $query = $dbh -> prepare($sql);
   $query->execute();
   $results=$query->fetchAll(PDO::FETCH_OBJ);
   if($query->rowCount() > 0)
   {
-
-    
     foreach($results as $row)
     {  
       $remaining=$row->quantity_remaining;
     }
   }
-  if ($quantity2>=$remaining) 
+  if ($remaining>$quantity2) 
   {
     $date=$_POST['date'];
     $item=$_POST['item'];
@@ -40,12 +38,23 @@ if(isset($_POST['save']))
       $quantity2=$_POST['quantity'];
       $newqtyleft = ($quantity-$quantity2);
       $item=$_POST['item'];
-      $sql3="update  tblproducts set quantity_rem=:newqtyleft where ProductName=:item";
+      $sql3="update  store_stock set quantity_remaining=:newqtyleft where item=:item";
       $query=$dbh->prepare($sql3);
       $query->bindParam(':newqtyleft',$newqtyleft,PDO::PARAM_STR);
       $query->bindParam(':item',$item,PDO::PARAM_STR);
       $query->execute();
-           echo '<script>alert("store_out recorded successfuly, Also your remaining items was affected")</script>';
+      $quantity = $_SESSION['quantity'];
+      $rate = $_SESSION['rate'];      
+      $quantity2=$_POST['quantity'];
+      $remainingbalance = ($quantity-$quantity2);
+      $newqtyleft = ($remainingbalance*$rate);
+      $item=$_POST['item'];
+      $sql4="update  store_stock set itemvalue=:newqtyleft where item=:item";
+      $query=$dbh->prepare($sql4);
+      $query->bindParam(':newqtyleft',$newqtyleft,PDO::PARAM_STR);
+      $query->bindParam(':item',$item,PDO::PARAM_STR);
+      $query->execute();
+      echo '<script>alert("store_out recorded successfuly, Also your remaining items was affected")</script>';
       echo "<script>window.location.href ='store.php'</script>";
     }
     else

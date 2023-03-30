@@ -57,138 +57,136 @@ check_login();
 
       <div class="main-panel">
         <div class="content-wrapper">
-          <div class="row">
-          <div class="col-l-6">
-                <div class="center navbar-brand-wrapper  align-items-center justify-content-center">
-                                        
-                    <div id="my-pie-chart-container">
-                      <div id="my-pie-chart"></div>
-                    </div>
-              </div>
             <div class="col-l-6">
               <div class="row">
-              <div class="col-md-6 stretch-card grid-margin">
-              <div class="card bg-gradient-info card-img-holder text-white"style="height: 150px;">
-                <div class="card-body">
-                  
-                  <h4 class="font-weight-normal mb-3">Today's Total Sales 
-                  </h4>
-                  <?php
-                  $querybb=mysqli_query($con,"select sum(tblorders.Quantity*tblproducts.ProductPrice) as today  from tblorders join tblproducts on tblproducts.id=tblorders.ProductId where date(tblorders.InvoiceGenDate)=CURDATE()");
-                  $today=mysqli_fetch_array($querybb);
-                  ?>
-                  <h2 class="mb-5"><?php echo number_format($today['today'],2);?></h2>
+
+                <!-- Total Sales Today -->
+                <div class="col-md-3 stretch-card grid-margin">
+                  <div class="card bg-gradient-info card-img-holder text-white"style="height: 150px;">
+                    <div class="card-body">
+                      <h4 class="font-weight-normal mb-3">Today's Total Sales 
+                      </h4>
+                      <?php
+                      $querybb=mysqli_query($con,"select sum(tblorders.Quantity*tblproducts.ProductPrice) as today  from tblorders join tblproducts on tblproducts.id=tblorders.ProductId where date(tblorders.InvoiceGenDate)=CURDATE()");
+                      $today=mysqli_fetch_array($querybb);
+                      ?>
+                      <h2 class="mb-5"><?php echo number_format($today['today'],2);?></h2>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div class="col-md-6 stretch-card grid-margin">
-              <div class="card bg-gradient-primary card-img-holder text-white" style="height: 150px;">
-                <div class="card-body">
-                  
-                  <h4 class="font-weight-normal mb-3">Weekly Sales 
-                    
-                  </h4>
-                  <?php
-                  $qury=mysqli_query($con,"select sum(tblorders.Quantity*tblproducts.ProductPrice) as week  from tblorders join tblproducts on tblproducts.id=tblorders.ProductId where date(tblorders.InvoiceGenDate)>=(DATE(NOW()) - INTERVAL 7 DAY)");
-                  $row=mysqli_fetch_array($qury);
-                  ?>
-                  <h2 class="mb-5"><?php echo number_format($row['week'],2);?></h2>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 stretch-card grid-margin">
-              <div class="card bg-gradient-success card-img-holder text-white" style="height: 150px;">
-                <div class="card-body">
-                  <h4 class="font-weight-normal mb-3">Total sales till date 
-                  </h4>
-                  <?php
-                  $query=mysqli_query($con,"select sum(tblorders.Quantity*tblproducts.ProductPrice) as total  from tblorders join tblproducts on tblproducts.id=tblorders.ProductId ");
-                  $row=mysqli_fetch_array($query);
-                  ?>
-                  <h2 class="mb-5"><?php echo number_format($row['total'],2);?></h2>
-                </div>
-              </div>
-            </div>
-            
-            <div class="col-md-6 stretch-card grid-margin">
-              <div class="card bg-gradient-warning card-img-holder text-white"style="height: 150px;">
-                <div class="card-body">
-                  
-                  <h4 class="font-weight-normal mb-3">Yesterday Total Sales
-                  </h4>
-                  <?php
-                  $qurys=mysqli_query($con,"select sum(tblorders.Quantity*tblproducts.ProductPrice) as yesterday  from tblorders join tblproducts on tblproducts.id=tblorders.ProductId where date(tblorders.InvoiceGenDate)=CURDATE()-1");
-                  $rw=mysqli_fetch_array($qurys);
-                  ?>
-                  <h2 class="mb-5"><?php echo number_format($rw['yesterday'],2);?></h2>
-                </div>
-              </div>
-            </div>
-           
-          </div>
-         </div>
-         <?php// } ?>
-        
-              
-                <div class="main-panel">
-        <div class="">
-          <div class="row">
-            <div class="col-lg-12 grid-margin stretch-card">
-              <div class="card">
-                <div class="modal-header">
-                  <h5 class="modal-title" style="float: left;">Recent Invoice</h5>
-                </div>
-                
-                <div class="card-body table-responsive p-3">
-                  <table class="table align-items-center table-flush table-hover" id="dataTableHover">
-                   <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Invoice Number</th>
-                      <th>Customer Name</th>
-                      <th>Customer Contact no.</th>
-                      <th>Payment Mode</th>
-                      <th>Payment Date</th>
+
+                <!-- Yesterday sales -->
+                <div class="col-md-3 stretch-card grid-margin">
+                  <div class="card bg-gradient-success card-img-holder text-white"style="height: 150px;">
+                    <div class="card-body">
                       
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <?php
-                    $rno=mt_rand(10000,99999); 
-                    $sql="select distinct InvoiceNumber,CustomerName,CustomerContactNo,PaymentMode,InvoiceGenDate    from tblorders ORDER BY id DESC";
-                    $query = $dbh -> prepare($sql);
-                    $query->execute();
-                    $results=$query->fetchAll(PDO::FETCH_OBJ);
-                    $cnt=1;
-                    if($query->rowCount() > 0)
-                    {
-                      foreach($results as $row)
-                      {  
-                        ?>
-                        <tr>
-                          <td><?php echo $cnt;?></td>
+                      <h4 class="font-weight-normal mb-3">Yesterday Total Sales
+                      </h4>
+                      <?php
+                      $qurys=mysqli_query($con,"select sum(tblorders.Quantity*tblproducts.ProductPrice) as yesterday  from tblorders join tblproducts on tblproducts.id=tblorders.ProductId where date(tblorders.InvoiceGenDate)=CURDATE()-1");
+                      $rw=mysqli_fetch_array($qurys);
+                      ?>
+                      <h2 class="mb-5"><?php echo number_format($rw['yesterday'],2);?></h2>
+                    </div>
+                  </div>
+                </div>
 
-                          <td class="font-w600"><?php  echo htmlentities($row->InvoiceNumber);?></td>
-                          <td class="font-w600"><?php  echo htmlentities($row->CustomerName);?></td>
-                          <td class="font-w600">0<?php  echo htmlentities($row->CustomerContactNo);?></td>
-                          <td class="font-w600"><?php  echo htmlentities($row->PaymentMode);?></td>
-                          <td class="font-w600"><?php  echo htmlentities(date("d-m-Y", strtotime($row->InvoiceGenDate)));?></td>
-                          
-                        </tr>
+                <!-- Weekly sales -->
+                <div class="col-md-3 stretch-card grid-margin">
+                  <div class="card bg-gradient-primary card-img-holder text-white" style="height: 150px;">
+                    <div class="card-body">
+                      
+                      <h4 class="font-weight-normal mb-3">Weekly Sales 
+                        
+                      </h4>
+                      <?php
+                      $qury=mysqli_query($con,"select sum(tblorders.Quantity*tblproducts.ProductPrice) as week  from tblorders join tblproducts on tblproducts.id=tblorders.ProductId where date(tblorders.InvoiceGenDate)>=(DATE(NOW()) - INTERVAL 7 DAY)");
+                      $row=mysqli_fetch_array($qury);
+                      ?>
+                      <h2 class="mb-5"><?php echo number_format($row['week'],2);?></h2>
+                    </div>
+                  </div>
+                </div>
 
-                        <?php 
-                        $cnt++;
-                      }
-                    }?>
-                  </tbody>                  
-                </table>
+                <div class="col-md-3 stretch-card grid-margin">
+                  <div class="card bg-gradient-warning card-img-holder text-white"style="height: 150px;">
+                    <div class="card-body">
+                      
+                      <h4 class="font-weight-normal mb-3">Today's Mpesa Sales 
+                      </h4>
+                      <?php
+                      $querybb=mysqli_query($con,"SELECT sum(tblorders.Quantity*tblproducts.ProductPrice) as today  from tblorders join tblproducts on tblproducts.id=tblorders.ProductId where date(tblorders.InvoiceGenDate)=CURDATE() AND tblorders.PaymentMode='Mpesa'");
+                      $today=mysqli_fetch_array($querybb);
+                      ?>
+                      <h2 class="mb-5"><?php echo number_format($today['today'],2);?></h2>
+                    </div>
+                  </div>
+                </div>
+                                         
+              </div>
+
+              <div class="row">
+                <!-- Remaining  -->
+                <div class="col-md-3 stretch-card grid-margin">
+                  <div class="card bg-gradient-info card-img-holder text-white"style="height: 150px;">
+                    <div class="card-body">
+                      
+                      <h4 class="font-weight-normal mb-3">Today's Total Sales 
+                      </h4>
+                      <?php
+                      $querybb=mysqli_query($con,"select sum(tblorders.Quantity*tblproducts.ProductPrice) as today  from tblorders join tblproducts on tblproducts.id=tblorders.ProductId where date(tblorders.InvoiceGenDate)=CURDATE()");
+                      $today=mysqli_fetch_array($querybb);
+                      ?>
+                      <h2 class="mb-5"><?php echo number_format($today['today'],2);?></h2>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 stretch-card grid-margin">
+                  <div class="card bg-gradient-success card-img-holder text-white" style="height: 150px;">
+                    <div class="card-body">
+                      
+                      <h4 class="font-weight-normal mb-3">Weekly Sales 
+                        
+                      </h4>
+                      <?php
+                      $qury=mysqli_query($con,"select sum(tblorders.Quantity*tblproducts.ProductPrice) as week  from tblorders join tblproducts on tblproducts.id=tblorders.ProductId where date(tblorders.InvoiceGenDate)>=(DATE(NOW()) - INTERVAL 7 DAY)");
+                      $row=mysqli_fetch_array($qury);
+                      ?>
+                      <h2 class="mb-5"><?php echo number_format($row['week'],2);?></h2>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 stretch-card grid-margin">
+                  <div class="card bg-gradient-primary card-img-holder text-white" style="height: 150px;">
+                    <div class="card-body">
+                      <h4 class="font-weight-normal mb-3">Total sales till date 
+                      </h4>
+                      <?php
+                      $query=mysqli_query($con,"select sum(tblorders.Quantity*tblproducts.ProductPrice) as total  from tblorders join tblproducts on tblproducts.id=tblorders.ProductId ");
+                      $row=mysqli_fetch_array($query);
+                      ?>
+                      <h2 class="mb-5"><?php echo number_format($row['total'],2);?></h2>
+                    </div>
+                  </div>
+                </div>
+                      
+                <div class="col-md-3 stretch-card grid-margin">
+                  <div class="card bg-gradient-warning card-img-holder text-white"style="height: 150px;">
+                    <div class="card-body">
+                      
+                      <h4 class="font-weight-normal mb-3">Today's Total Sales 
+                      </h4>
+                      <?php
+                      $querybb=mysqli_query($con,"select sum(tblorders.Quantity*tblproducts.ProductPrice) as today  from tblorders join tblproducts on tblproducts.id=tblorders.ProductId where date(tblorders.InvoiceGenDate)=CURDATE()");
+                      $today=mysqli_fetch_array($querybb);
+                      ?>
+                      <h2 class="mb-5"><?php echo number_format($today['today'],2);?></h2>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-        </div>
-
+      
         
         
         <?php @include("includes/footer.php");?>

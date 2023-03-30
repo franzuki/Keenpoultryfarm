@@ -43,9 +43,9 @@ CREATE TABLE `permissions` (
 --
 
 INSERT INTO `permissions` (`id`, `permission`, `createuser`, `deleteuser`, `createbid`, `updatebid`) VALUES
-(1, 'Superuser', '1', '1', '1', '1'),
-(2, 'Admin', '1', '1', '1', '1'),
-(3, 'User', NULL, NULL, '1', NULL);
+(1, 'Admin', '1', '1', '1', '1'),
+(2, 'RManager', NULL , NULL , '1', '1'),
+(3, 'Cashier', NULL, NULL, '1', NULL);
 
 -- --------------------------------------------------------
 
@@ -53,49 +53,76 @@ INSERT INTO `permissions` (`id`, `permission`, `createuser`, `deleteuser`, `crea
 -- Table structure for table `store_out`
 --
 
-CREATE TABLE `store_out` (
-  `id` int(11) NOT NULL,
-  `date` date NOT NULL,
-  `item` varchar(500) NOT NULL,
-  `quantity` varchar(500) NOT NULL,
-  `itemsoutvalue` int(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `losses` (
+  `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `productname` VARCHAR(50) NOT NULL,
+  `quantity` INT NOT NULL,
+  `cause` VARCHAR(50) NOT NULL,
+  `type` VARCHAR(50) NOT NULL,
+  `date`  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_losses_productname ON losses(productname);
+
+INSERT INTO losses(productname, quantity, cause, type) VALUES
+('Layers', 10, 'Damage', 'before stockin'),
+('Broilers', 5, 'Theft', 'before stockin'),
+('Duck Eggs', 8, 'Theft', 'before stockin'),
+('Male Ducks', 20, 'Damage', 'after stockin'),
+('Goose Eggs', 15, 'Theft', 'after stockin'),
+('Male Goose', 6, 'Theft', 'after stockin'),
+('Female Goose', 12, 'Damage', 'after stockin'),
+('Ducklings', 9, 'Death', 'after stockin'),
+('Goslings', 3, 'Death', 'after stockin'),
+('Layers', 17, 'Damage', 'before stockin'),
+('Broilers', 11, 'Death', 'before stockin'),
+('Duck Eggs', 4, 'Theft', 'before stockin'),
+('Male Ducks', 7, 'Damage', 'before stockin'),
+('Goose Eggs', 14, 'Theft', 'before stockin'),
+('Mature Goose', 2, 'Damage', 'before stockin');
+
 
 -- --------------------------------------------------------
 CREATE TABLE `expenses` (
 	`id` int(11) auto_increment not null primary key,
     `name` varchar(20) not null,
     `description` varchar(200) NOT NULL,
-    `quantity` varchar(30) NOT NULL,
     `total` int(20) NOT NULL,
+    `status` int(2) NOT NULL DEFAULT 0,
     `date` timestamp NULL DEFAULT current_timestamp()
     ) engine=InnoDB DEFAULT CHARSET=latin1;
 --
-INSERT INTO `expenses` (`name`, `description`, `quantity`, `total`)
-		VALUES ('smooth','Chick vaccination','5 packets 200ml',446246);
--- Table structure for table `store_stock`
+CREATE INDEX idx_expense
+ON expenses (id);
+INSERT INTO `expenses` (`name`, `description`, `total`) VALUES
+('Feed', 'Purchase of chicken feed', 1000),
+('Medication', 'Purchase of medication for sick chickens', 500),
+('Chicks', 'Purchase of day-old chicks', 2000),
+('Rent', 'Monthly rent for the poultry house', 3000),
+('Electricity', 'Monthly electricity bill for the poultry house', 1500),
+('Water', 'Monthly water bill for the poultry house', 500),
+('Labor', 'Salary for farm workers', 5000),
+('Vaccine', 'Purchase of vaccines for chickens', 1000),
+('Transportation', 'Cost of transporting chickens to the market', 2000),
+('Marketing', 'Cost of advertising and marketing', 1000),
+('Supplies', 'Purchase of cleaning supplies and other supplies', 500),
+('Fuel', 'Purchase of fuel for the generator', 1000),
+('Repairs', 'Repairs to equipment and structures', 1500),
+('Insurance', 'Insurance premium for the poultry farm', 2000),
+('Taxes', 'Taxes paid to the government', 1000);
+        
+-- Table structure for table `forget_password`
 --
 
-CREATE TABLE `store_stock` (
+CREATE TABLE `forget_password` (
   `id` int(11) NOT NULL,
-  `date` date NOT NULL,
-  `item` varchar(500) NOT NULL,
-  `quantity` varchar(500) NOT NULL,
-  `rate` varchar(500) NOT NULL,
-  `total` varchar(500) NOT NULL,
-  `quantity_remaining` varchar(500) NOT NULL,
-  `itemvalue` int(15) NOT NULL,
-  `status` varchar(255) NOT NULL DEFAULT '1'
+  `email` varchar(200) NOT NULL,
+  `temp_key` varchar(200) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `store_stock`
---
-
--- INSERT INTO `store_stock` (`id`, `date`, `item`, `quantity`, `rate`, `total`, `quantity_remaining`, `itemvalue`, `status`) VALUES
--- (1, '2022-03-14', 'PRECUT CHICKEN - 500 GM', '', '699', '3495', '5', 3495, '1'),
--- (2, '2022-03-14', '12 EGGS - ECONOMY PACK', '', '649', '32450', '50', 32450, '1');
-
+CREATE INDEX idx_email
+ON forget_password (id);
 -- -- --------------------------------------------------------
 
 --
@@ -106,7 +133,6 @@ CREATE TABLE `tbladmin` (
   `ID` int(10) NOT NULL,
   `Staffid` varchar(20) DEFAULT NULL,
   `AdminName` varchar(120) DEFAULT NULL,
-  `UserName` varchar(120) DEFAULT NULL,
   `FirstName` varchar(255) DEFAULT NULL,
   `LastName` varchar(255) DEFAULT NULL,
   `MobileNumber` bigint(10) DEFAULT NULL,
@@ -117,12 +143,14 @@ CREATE TABLE `tbladmin` (
   `AdminRegdate` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE INDEX idx_admin
+ON tbladmin (id);
 --
 -- Dumping data for table `tbladmin`
 --
 
-INSERT INTO `tbladmin` (`ID`, `Staffid`, `AdminName`, `UserName`, `FirstName`, `LastName`, `MobileNumber`, `Email`, `Status`, `Photo`, `Password`, `AdminRegdate`) VALUES
-(1, 'ADM-001', 'Admin', 'admin', 'Francis', 'Nzuki', 0701723886, 'nzukifrancis20@gmail.com', 1, 'francis.jpg', '21232f297a57a5a743894a0e4a801fc3', '2022-10-15 10:18:39');
+INSERT INTO `tbladmin` (`ID`, `Staffid`, `AdminName`, `FirstName`, `LastName`, `MobileNumber`, `Email`, `Status`, `Photo`, `Password`, `AdminRegdate`) VALUES
+(1, 'ADM-001', 'Admin', 'Francis', 'Nzuki', 0701723886, 'nzukifrancis20@gmail.com', 1, 'francis.jpg', '21232f297a57a5a743894a0e4a801fc3', '2022-10-15 10:18:39');
 -- --------------------------------------------------------
 
 --
@@ -148,7 +176,8 @@ INSERT INTO `tblcategory` (`id`, `CategoryName`, `CategoryCode`, `PostingDate`) 
 (5, 'GOOSE', 'CKN-001', '2022-10-13 18:28:40');
 
 -- --------------------------------------------------------
-
+CREATE INDEX idx_category
+ON tblcategory (id);
 --
 -- Table structure for table `tblcompany`
 --
@@ -168,35 +197,15 @@ CREATE TABLE `tblcompany` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+CREATE INDEX idx_Id
+ON tblcompany (id);
 -- Dumping data for table `tblcompany`
 --
 
 INSERT INTO `tblcompany` (`id`, `regno`, `companyname`, `companyemail`, `country`, `companyphone`, `companyaddress`, `companylogo`, `status`, `developer`, `creationdate`) VALUES
 (1, '3422232443223', 'KEEN Poultry Farm', 'keenpoultry@gmail.com', 'Kenya', '+254701723886', 'Nakuru', 'poultrylogo.png', '1', 'Francis', '2022-11-01 12:17:15');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `tblitems`
---
-
-CREATE TABLE `tblitems` (
-  `id` int(11) NOT NULL,
-  `item` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
-  `description` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
-  `Creationdate` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `tblitems`
---
-
--- INSERT INTO `tblitems` (`id`, `item`, `description`, `Creationdate`) VALUES
--- (1, 'PRECUT CHICKEN - 500 GM', 'Serving Weight/Egg: 900/500 gm It comes in ‘food-grade foil bag packaging with 900gm (Approx.) free-range KADAKNATH pre-cut chicken. Cooking Guidelines: Kadaknath chicken has lean meat with very low-fat content. Hence, it is best served in a curry or masa', '2022-03-13 18:36:52'),
--- (2, '12 EGGS - ECONOMY PACK', 'Serving Weight/Egg: 40-50g (Approx.) It comes in ‘food-grade paper pulp packaging with 12 free-range KADAKNATH eggs. High Protein | Low Fat | Low Cholesterol | Rich Iron Source Higher Levels of - 18 essential Amino Acids & Hormones, Vitamins B1, B2, B6, B', '2022-03-13 18:37:33');
-
--- --------------------------------------------------------
-
+-- ------------------------------------------------------
 --
 -- Table structure for table `tblorders`
 --
@@ -214,17 +223,26 @@ CREATE TABLE `tblorders` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `tblorders`
---
+INSERT INTO `tblorders` (`id`, `ProductId`, `Quantity`, `InvoiceNumber`, `CustomerName`, `CustomerContactNo`, `PaymentMode`, `InvoiceGenDate`, `Status`) VALUES
+(1, 2, 5, 'INV001', 'John Doe', 1234567890, 'Cash', '2023-03-30 12:00:00', 1),
+(2, 8, 2, 'INV002', 'Jane Smith', 9876543210, 'Mpesa', '2023-03-30 12:15:00', 1),
+(3, 4, 10, 'INV003', 'Bob Johnson', 5551234567, 'Cash', '2023-03-30 12:30:00', 1),
+(4, 12, 1, 'INV004', 'Samantha Lee', 1112223333, 'Mpesa', '2023-03-30 12:45:00', 1),
+(5, 3, 3, 'INV005', 'Tom Wilson', 4445556666, 'Cash', '2023-03-30 13:00:00', 1),
+(6, 7, 8, 'INV006', 'Linda Chen', 9998887777, 'Mpesa', '2023-03-30 13:15:00', 1),
+(7, 1, 2, 'INV007', 'Mike Davis', 7778889999, 'Cash', '2023-03-30 13:30:00', 1),
+(8, 11, 1, 'INV008', 'Amy Kim', 3334445555, 'Mpesa', '2023-03-30 13:45:00', 1),
+(9, 14, 5, 'INV009', 'David Lee', 2223334444, 'Cash', '2023-03-30 14:00:00', 1),
+(10, 5, 10, 'INV010', 'Emily Chen', 6667778888, 'Mpesa', '2023-03-30 14:15:00', 1),
+(11, 9, 3, 'INV011', 'Jessica Wu', 1112223333, 'Cash', '2023-03-30 14:30:00', 1),
+(12, 6, 4, 'INV012', 'Mark Lee', 7776665555, 'Mpesa', '2023-03-30 14:45:00', 1),
+(13, 10, 2, 'INV013', 'Jennifer Kim', 4445556666, 'Cash', '2023-03-30 15:00:00', 1),
+(14, 13, 1, 'INV014', 'Alex Chang', 2223334444, 'Mpesa', '2023-03-30 15:15:00', 1),
+(15, 15, 3, 'INV015', 'Sarah Lee', 9998887777, 'Cash', '2023-03-30 15:30:00', 1);
 
--- INSERT INTO `tblorders` (`id`, `ProductId`, `Quantity`, `InvoiceNumber`, `CustomerName`, `CustomerContactNo`, `PaymentMode`, `InvoiceGenDate`) VALUES
--- (1, 1, 10, 789218424, 'Suraj Jain', 9423979339, 'cash', '2022-03-13 18:38:29'),
--- (2, 2, 6, 789218424, 'Suraj Jain', 9423979339, 'cash', '2022-03-13 18:38:30'),
--- (3, 4, 10, 789218424, 'Suraj Jain', 9423979339, 'cash', '2022-03-13 18:38:30');
 
--- -- --------------------------------------------------------
-
---
+CREATE INDEX idx_ProductId
+ON tblorders (ProductId);
 -- Table structure for table `tblproducts`
 --
 
@@ -234,41 +252,33 @@ CREATE TABLE `tblproducts` (
   `ProductName` varchar(150) DEFAULT NULL,
   `ProductImage` varchar(255) DEFAULT NULL,
   `ProductPrice` decimal(10,0) DEFAULT NULL,
-  `qty_rem` integer(15) DEFAULT NULL,
+  `quantity_rem` integer(15) DEFAULT NULL,
   `PostingDate` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `UpdationDate` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `tblproducts`
+CREATE INDEX idx_ProductId
+ON tblproducts (id);
+
+INSERT INTO `tblproducts` (`id`, `CategoryName`, `ProductName`, `ProductImage`, `ProductPrice`, `quantity_rem`, `PostingDate`, `UpdationDate`) VALUES
+(1, 'Chicken', 'Layers', 'layers.jpg', 1000, 1060, '2023-03-30 10:00:00', NULL),
+(2, 'Chicken', 'Broilers', 'broilers.jpg', 1200, 5700, '2023-03-30 10:00:00', NULL),
+(3, 'Ducks', 'Duck eggs', 'duck_eggs.jpg', 3, 800, '2023-03-30 10:00:00', NULL),
+(4, 'Ducks', 'Male Duck', 'duck_meat.jpg', 12, 400, '2023-03-30 10:00:00', NULL),
+(5, 'Goose', 'Goose eggs', 'goose_eggs.jpg', 4, 600, '2023-03-30 10:00:00', NULL),
+(6, 'Goose', 'Mal Goose', 'goose_male.jpg', 15, 300, '2023-03-30 10:00:00', NULL),
+(9, 'Ducks', 'Ducklings', 'ducklings.jpg', 800, 1270, '2023-03-30 10:00:00', NULL),
+(10, 'Ducks', 'Mature ducks', 'mature_ducks.jpg', 2000, 508, '2023-03-30 10:00:00', NULL),
+(11, 'Goose', 'Goslings', 'goslings.jpg', 500, 800, '2023-03-30 10:00:00', NULL),
+(12, 'Goose', 'Mature geese', 'mature_geese.jpg', 2500, 300, '2023-03-30 10:00:00', NULL);
+
 --
 
--- INSERT INTO `tblproducts` (`id`, `CategoryName`, `ProductName`, `ProductImage`, `ProductPrice`, `PostingDate`, `UpdationDate`) VALUES
--- (1, 'EGGS', 'WHOLE EGG POWDER (50 gm)', '714Ml7MS8wL._SL1500_.jpg', '499', '2022-03-13 18:29:45', NULL),
--- (2, 'EGGS', 'READY TO COOK - OMELET POWDER (50 gm)', 'fd.jpg', '299', '2022-03-13 18:34:00', NULL),
--- (3, 'CHICKEN', 'WHOLE CHICKEN - 900 GM', '71pfC4X8s1L._SX679_.jpg', '699', '2022-03-13 18:34:46', NULL),
--- (4, 'CHICKEN', 'PRECUT CHICKEN - 900 GM', 'WHOLE-CHICKEN---900-GM.jpg', '677', '2022-03-13 18:35:26', NULL);
-
---
 -- Indexes for dumped tables
---
-
 --
 -- Indexes for table `permissions`
 --
 ALTER TABLE `permissions`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `store_out`
---
-ALTER TABLE `store_out`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `store_stock`
---
-ALTER TABLE `store_stock`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -292,11 +302,6 @@ ALTER TABLE `tblcompany`
 --
 -- Indexes for table `tblitems`
 --
-ALTER TABLE `tblitems`
-  ADD PRIMARY KEY (`id`);
-
---
-
 -- ALTER TABLE `tblproducts`
 --   ADD UNIQUE (`ProductName`);
 -- Indexes for table `tblorders`
@@ -311,28 +316,11 @@ ALTER TABLE `tblproducts`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
---
-
---
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `store_out`
---
-ALTER TABLE `store_out`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `store_stock`
---
-ALTER TABLE `store_stock`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
---
+-- ------------------------
 -- AUTO_INCREMENT for table `tbladmin`
 --
 ALTER TABLE `tbladmin`
@@ -351,12 +339,6 @@ ALTER TABLE `tblcompany`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
--- AUTO_INCREMENT for table `tblitems`
---
-ALTER TABLE `tblitems`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
---
 -- AUTO_INCREMENT for table `tblorders`
 --
 ALTER TABLE `tblorders`
@@ -369,59 +351,6 @@ ALTER TABLE `tblproducts`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 COMMIT;
 
-CREATE TABLE `forget_password` (
-  `id` int(11) NOT NULL,
-  `email` varchar(200) NOT NULL,
-  `temp_key` varchar(200) NOT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `forget_password`
---
-
-INSERT INTO `forget_password` (`id`, `email`, `temp_key`, `created`) VALUES
-(0, 'ghchnepal@mail.com.np', '4ef7518184bf85cdb80fa34ec93eb3ce', '2016-09-28 13:37:01'),
-(0, 'ghchnepal@mail.com.np', 'e4cb0c463e54f51e58bdd75c1cd76c15', '2016-11-10 06:35:40'),
-(0, 'ghchnepal@mail.com.np', 'e71af87f55413fc401b9bdc00573b570', '2017-02-22 10:48:02');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user`
---
-
-CREATE TABLE `user` (
-  `id` int(11) NOT NULL,
-  `fullname` varchar(30) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `email` varchar(30) NOT NULL,
-  `phone` varchar(20) NOT NULL,
-  `admin_type` varchar(20) NOT NULL,
-  `parent_admin` varchar(20) NOT NULL,
-  `username` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `user`
---
-
-INSERT INTO `user` (`id`, `fullname`, `password`, `email`, `phone`, `admin_type`, `parent_admin`, `username`) VALUES
-(1, 'Arjun Dhakal', '724d6f12d48ab4d0d57413824305b013', 'ghchnepal@mail.com.np', '9841312498', '', '', '');
-
--- --------------------------------------------------------
-
---
--- Indexes for table `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT for table `user`
---
-ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

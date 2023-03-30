@@ -5,9 +5,8 @@ if(isset($_POST['save']))
 {
   $name=$_POST['name'];
   $desc=$_POST['description'];
-  $quant=$_POST['quantity'];
   $total=$_POST['total'];
-  $sql=mysqli_query($con,"INSERT INTO expenses(name,description,quantity,total) VALUES('$name','$desc','$quant','$total')");
+  $sql=mysqli_query($con,"INSERT INTO expenses(name,description,total) VALUES('$name','$desc','$total')");
     if($sql)
     {
       echo"<script>alert('Saved successfully')</script>";
@@ -16,6 +15,12 @@ if(isset($_POST['save']))
     {
       echo"<script>alert('Something went wrong. Check your entries!')</script>";
     }
+}
+if(isset($_GET['confirm'])){    
+  $id=$_GET['eid'];
+  $query=mysqli_query($con,"UPDATE expenses set status='1' where id='$id'");
+  echo "<script>alert('Confirmed successfully');</script>";   
+  echo "<script>window.location.href='expenses_report.php'</script>";
 }
 ?>
 <!DOCTYPE html>
@@ -31,44 +36,30 @@ if(isset($_POST['save']))
       
       <div class="main-panel">
         <div class="content-wrapper">
-        <div class="row">
-            <div class="col-lg-12 grid-margin stretch-card">
-              <div class="card">
-                <div class="table-responsive p-3">
-                  <table id="datable_1" class="table table-hover w-100 display pb-30">
-                    <thead>
-                      <tr>
-                        <th>Expense Name</th>
-                        <th>Description</th>
-                        <th>Quantity</th>
-                        <th>Total Cost</th>
-                        
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <form method="post" action="expenses.php">                                                  
-                          <tr>
-                            <td><input type="text" autofill="yes" name="name" required> </td>
-                            <td><input type="text" autofill="yes" name="description" required> </td>
-                            <td><input type="text" autofill="yes" name="quantity" required> </td>
-                            <td><input type="number" autofill="yes" name="total" required> </td>
-                          </tr>
-                          
-                          <tr>
-                          <td><input type="submit" name="save" class="btn btn-block btn-lg font-weight-medium " style="background-color: dodgerblue; color: white;"></input></td>
-                          </tr>
-
-                        </form>
-                      
-                    </tbody>
-                  </table>
-                  <br>
-
-
+             <h2 style="text-align:center"> Expenses </h2>
+          <div class="card-body">
+            <form  method="post" action="expenses.php" autocomplete="off">
+                <div class="row">
+                    <div class="form-group col-md-4">
+                      <label for="exampleInputPassword1">Expense Name</label>
+                        <input type="text" class="form-control" name="name" placeholder="Name" required="required">
+                    </div>
+                    <div class="form-group col-md-4">
+                    <label for="exampleInputPassword1">Description</label>
+                        <input type="text" class="form-control" name="description" placeholder="Eg supplied by ....." required="required" >
+                    </div>
+                    <div class="form-group col-md-4">
+                    <label for="exampleInputPassword1">Total Cost</label>
+                        <input type="number" class="form-control" name="total" placeholder="Total" required="required">
+                    </div>
                 </div>
-              </div>
-            </div>
-          </div>        
+                                     
+                <div class="form-group">
+                    <input type="submit" value="Save" name="save" id="submit" class="btn btn-info">
+                </div>
+            </form>
+          </div> 
+        </div>        
         
         <?php @include("includes/footer.php");?>
         
@@ -77,7 +68,7 @@ if(isset($_POST['save']))
     </div>
     
   </div>
-  
+ 
   <?php @include("includes/foot.php");?>
   
 </body>

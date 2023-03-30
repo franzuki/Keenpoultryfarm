@@ -39,11 +39,11 @@
           </li>
           
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="dropdown05" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Farm</a>
-            <div class="dropdown-menu  navbar-dropdown" aria-labelledby="dropdown05">
-            <a class="dropdown-item" href="farmprofile.php">Farm Details</a>
-            <a class="dropdown-item" href="store.php">Farm Store (Stock In)</a>
-            <a class="dropdown-item" href="category.php">Manage Category</a>
+              <a class="nav-link dropdown-toggle" href="#" id="dropdown05" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Farm</a>
+              <div class="dropdown-menu  navbar-dropdown" aria-labelledby="dropdown05">
+              <a class="dropdown-item" href="farmprofile.php">Farm Details</a>
+              <a class="dropdown-item" href="store.php">Farm Store (Stock In)</a>
+              <a class="dropdown-item" href="category.php">Manage Category</a>
               <a class="dropdown-item" href="product.php">Manage Product</a>
            
 
@@ -52,7 +52,9 @@
 
           <li class="nav-item dropdown">
             <a class="nav-link" href="expenses.php">Expenses</a>
-          
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link" href="losses.php">Losses</a>
           </li>
 
            <li class="nav-item dropdown">
@@ -62,6 +64,7 @@
               <a class="dropdown-item" href="stock_report.php">Stock Report</a>
               <a class="dropdown-item" href="invoice_report.php">Invoice Report</a>
               <a class="dropdown-item" href="expenses_report.php">Expenses Report</a>
+              <a class="dropdown-item" href="losses_report.php">Losses Report</a>
             </div>
           </li>
           <li class="nav-item dropdown">
@@ -79,19 +82,21 @@
                </li>
                
                <li class="nav-item dropdown">
-                 <a class="nav-link dropdown-toggle" href="#" id="dropdown05" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Farm</a>
-                 <div class="dropdown-menu  navbar-dropdown" aria-labelledby="dropdown05">
-                 <a class="dropdown-item" href="store.php">Farm Store (Stock In)</a>
-                 <a class="dropdown-item" href="category.php">Manage Category</a>
-                   <a class="dropdown-item" href="product.php">Manage Product</a>
+                  <a class="nav-link dropdown-toggle" href="#" id="dropdown05" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Farm</a>
+                  <div class="dropdown-menu  navbar-dropdown" aria-labelledby="dropdown05">
+                  <a class="dropdown-item" href="store.php">Farm Store (Stock In)</a>
+                  <a class="dropdown-item" href="category.php">Manage Category</a>
+                  <a class="dropdown-item" href="product.php">Manage Product</a>
                 
      
                  </div>
                </li>
      
                <li class="nav-item dropdown">
-                 <a class="nav-link" href="expenses.php">Expenses</a>
-               
+                  <a class="nav-link" href="expenses.php">Expenses</a>
+               </li>
+               <li class="nav-item dropdown">
+                  <a class="nav-link" href="losses.php">Losses</a>
                </li>
      
                 <li class="nav-item dropdown">
@@ -109,13 +114,8 @@
                 elseif($row->AdminName="Cashier"){
                   ?>
              <ul class="navbar-nav navbar-nav-left">
-          <li class="nav-item dropdown">
+          <li style="text-align:center" class="nav-item dropdown">
             <a class="nav-link" href="sell_product.php">Sell Products</a>
-          
-          </li>
-
-          <li class="nav-item dropdown">
-            <a class="nav-link" href="expenses.php">Expenses</a>
           
           </li>
           
@@ -126,7 +126,7 @@
         
         </ul>
         <ul class="navbar-nav navbar-nav-right">
-      <li class="nav-item nav-profile dropdown">
+      <li style="float:right" class="nav-item nav-profile dropdown">
         <?php
         $aid=$_SESSION['odmsaid'];
         $sql="SELECT * from  tbladmin where ID=:aid";
@@ -180,4 +180,6 @@
           <span class="mdi mdi-menu"></span>
         </button>
       </div>
+
+      
     </nav>

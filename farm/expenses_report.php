@@ -1,5 +1,6 @@
 <?php
 include('includes/checklogin.php');
+include('includes/functions.php');
 check_login();
 ?>
 <!DOCTYPE html>
@@ -24,7 +25,7 @@ check_login();
                 </div>
                 
                 <div class="card-body table-responsive p-3">
-                <button type="button" style="width:150px; background-color:RGB(101,140,187)" onclick="window.print()">Print Report</button>
+                <button type="button" style="width:150px; background-color:RGB(101,140,187)" onclick="printTable()">Print Report</button>
                 
                   <table class="table align-items-center table-flush table-hover table-bordered" id="dataTableHover">
                    <thead>
@@ -32,16 +33,15 @@ check_login();
                       <th>#</th>
                       <th>Expense Name</th>
                       <th>Description</th>
-                      <th>Quantity</th>
                       <th>Total Cost (Ksh)</th>
                       <th>Date</th>
+                      <th>Action</th>
                       
                     </tr>
                   </thead>
                   <tbody>
                     <?php
-                    $rno=mt_rand(10000,99999); 
-                    $sql="select id,name,description,quantity,total,date from expenses ORDER BY id DESC";
+                    $sql="SELECT * from expenses ORDER BY id DESC";
                     $query = $dbh -> prepare($sql);
                     $query->execute();
                     $results=$query->fetchAll(PDO::FETCH_OBJ);
@@ -56,10 +56,15 @@ check_login();
 
                           <td class="font-w600"><?php  echo htmlentities($row->name);?></td>
                           <td class="font-w600"><?php  echo htmlentities($row->description);?></td>
-                          <td class="font-w600"><?php  echo htmlentities($row->quantity);?></td>
                           <td class="font-w600"><?php  echo htmlentities($row->total);?></td>
                           <td class="font-w600"><?php  echo htmlentities(date("d-m-Y", strtotime($row->date)));?></td>
-                          
+                          <td class="font-w600">
+                            <?php if($row->status==1){
+                              echo '<span style="color:green">confirmed</span>';
+                            } else{ ?>
+                              <a href="expenses.php?confirm=yes&eid=<?php echo $row->id; ?>" onclick="return confirm('Do you really want to confirm the expense? You cannot reverse this action');">Confirm</a>
+                            <?php } ?>
+                          </td>
                         </tr>
 
                         <?php 
